@@ -18,10 +18,10 @@ EditorBuildSettings:
     path: Assets/Scenes/TaskMap/task 2/task 2.unity
     guid: 46e6f06ade7dc4045803d64dde0b51dd
   - enabled: 1
-    path: Assets/Scenes/TaskMap/task 4/task 4.unity
+    path: Assets/Scenes/TaskMap/task 3/task 4.unity
     guid: dad41e3b31bf91c4cb913460883c3442
   - enabled: 1
-    path: Assets/Scenes/TaskMap/task 5/task 5.unity
+    path: Assets/Scenes/TaskMap/task 4/task 5.unity
     guid: 9e52b5e19d825284ab24ad03ec756cee
   m_configObjects:
     com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
