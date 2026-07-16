@@ -69,6 +69,7 @@ GameObject:
   - component: {fileID: 8454600307633737464}
   - component: {fileID: 6347519814291571834}
   - component: {fileID: 2642629023662966395}
+  - component: {fileID: 4238019059733741203}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -245,6 +246,27 @@ MonoBehaviour:
   upwardArc: 0.15
   throwCooldown: 1
   throwKey: 103
+--- !u!65 &4238019059733741203
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7401597810289875142}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.0000001, y: 2, z: 1.0000002}
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &8089633481822045003
 GameObject:
   m_ObjectHideFlags: 0
@@ -454,6 +476,10 @@ PrefabInstance:
       propertyPath: fpsCamera
       value: 
       objectReference: {fileID: 7552660961501978922}
+    - target: {fileID: 5788418279583325210, guid: 41236ddb97b001d499cadd3503c086dc, type: 3}
+      propertyPath: enemyLayer.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 560585288466575159, guid: 41236ddb97b001d499cadd3503c086dc, type: 3}
     - {fileID: 8453653679473905563, guid: 41236ddb97b001d499cadd3503c086dc, type: 3}
