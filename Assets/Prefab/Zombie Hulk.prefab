@@ -972,7 +972,4 @@ MonoBehaviour:
   coinDropChance: 1
   instantKillOnHit: 1
   knockbackForce: 15
-  paramAttackType: AttackType
-  paramEnraged: IsEnraged
-  enrageHealthThreshold: 0.3
-  enrageSpeedMultiplier: 1.6
+  paramWalkSpeed: WalkSpeed

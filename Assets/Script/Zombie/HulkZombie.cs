@@ -3,62 +3,36 @@ using UnityEngine;
 namespace Enemies
 {
     /// <summary>
-    /// Hulk Zombie — Boss cuối game. Model/rig/animation lấy từ asset glTF hoàn toàn khác
-    /// zombie thường (clip có sẵn: walk, run, die, attack01, attack02).
+    /// Hulk Zombie (Boss) - bản đơn giản, CHỈ dùng 3 animation: walk, attack01, die.
     ///
-    /// QUAN TRỌNG: KHÔNG cần sửa gì trong EnemyBase để dùng model khác. EnemyBase đã tách
-    /// riêng TÊN parameter Animator (paramIsWalking / paramAttackTrigger / paramDieTrigger)
-    /// thành field cấu hình được trong Inspector của từng prefab — chỉ cần tạo 1 Animator
-    /// Controller MỚI cho riêng Hulk, đặt tên 3 parameter đó (giữ mặc định "isWalking" /
-    /// "Attack" / "Die" cho đơn giản) là chạy được ngay, dù animation clip gốc tên gì cũng
-    /// được vì Controller chỉ tham chiếu qua parameter, không quan tâm tên clip.
+    /// Không có state Idle riêng: khi đứng yên (chưa tới lượt đuổi theo hoặc đang trong tầm
+    /// đánh), animation "walk" được giữ nguyên nhưng đóng băng lại (tốc độ phát = 0) qua
+    /// Float parameter "WalkSpeed" — thay vì chuyển qua 1 state Idle riêng như zombie thường
+    /// (zombie thường có clip Idle riêng nên dùng Bool "isWalking" để chuyển giữa 2 state;
+    /// Hulk không có clip Idle nên đổi cách điều khiển cho phù hợp).
     ///
-    /// Class này CHỈ chứa 2 thứ đặc thù của riêng boss (không có ở zombie thường), để không
-    /// làm phình EnemyBase dùng chung cho mọi loại zombie khác:
-    ///
-    /// 1) Đòn đánh đổi ngẫu nhiên giữa 2 animation attack01/attack02 (tận dụng đúng 2 clip có
-    ///    sẵn trong model) — qua Int parameter "AttackType" (0/1), CHỈ cần tạo thêm parameter
-    ///    này trong Animator Controller của Hulk, zombie thường không cần biết tới.
-    /// 2) Enrage (nổi điên) khi máu xuống thấp: tăng tốc độ + đổi animation đi bộ "walk" sang
-    ///    chạy "run" (clip có sẵn nhưng EnemyBase không dùng tới) — qua Bool "IsEnraged".
+    /// KHÔNG cần sửa gì trong EnemyBase — SetWalking() vốn đã là hàm virtual, override ngay
+    /// tại đây là đủ.
     /// </summary>
     public class HulkZombie : EnemyBase
     {
         [Header("Đòn đánh")]
-        public bool instantKillOnHit = true;
-        public float knockbackForce = 15f;
+        public float knockbackForce;
 
-        [Header("Animator - riêng cho Hulk (không có ở EnemyBase / zombie thường)")]
-        [Tooltip("Tên Int parameter chọn animation đánh: 0 = attack01, 1 = attack02")]
-        public string paramAttackType = "AttackType";
-        [Tooltip("Tên Bool parameter báo hiệu đang Enrage (đổi Walk -> Run)")]
-        public string paramEnraged = "IsEnraged";
-
-        [Header("Enrage (nổi điên khi máu thấp)")]
-        [Range(0f, 1f)]
-        [Tooltip("Enrage khi máu hiện tại <= tỉ lệ này so với máu tối đa")]
-        public float enrageHealthThreshold = 0.3f;
-        [Tooltip("Nhân tốc độ di chuyển khi Enrage (áp lên agent.speed)")]
-        public float enrageSpeedMultiplier = 1.6f;
-
-        private bool isEnraged;
+        [Header("Animator - riêng cho Hulk")]
+        [Tooltip("Tên Float parameter điều khiển tốc độ phát animation Walk " +
+                 "(0 = đứng yên/đóng băng, 1 = đi bình thường)")]
+        private string paramWalkSpeed = "WalkSpeed";
 
         /// <summary>
-        /// Gọi hàm gốc ở EnemyBase để xử lý cooldown + trigger "Attack" như bình thường;
-        /// nếu đòn đánh THỰC SỰ được tung ra (không còn đang hồi chiêu), chọn thêm ngẫu
-        /// nhiên attack01/attack02 để boss không đánh lặp 1 kiểu hoài gây nhàm.
+        /// Override lại cách EnemyBase báo hiệu đang di chuyển hay không: thay vì SetBool
+        /// giữa 2 state Idle/Walk (Hulk không có state Idle riêng), chỉ đổi tốc độ phát của
+        /// chính state Walk thông qua SetFloat.
         /// </summary>
-        protected override bool TryAttack()
+        protected override void SetWalking(bool walking)
         {
-            bool didAttack = base.TryAttack();
-
-            if (didAttack && animator != null && !string.IsNullOrEmpty(paramAttackType))
-            {
-                int attackType = Random.value < 0.5f ? 0 : 1;
-                animator.SetInteger(paramAttackType, attackType);
-            }
-
-            return didAttack;
+            if (animator != null && !string.IsNullOrEmpty(paramWalkSpeed))
+                animator.SetFloat(paramWalkSpeed, walking ? 1f : 0f);
         }
 
         protected override void Attack()
@@ -66,41 +40,12 @@ namespace Enemies
             if (player == null) return;
 
             PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
-            if (playerHealth != null)
-            {
-                if (instantKillOnHit)
-                    playerHealth.Kill();
-                else
-                    playerHealth.TakeDamage(damage);
-            }
-
             Rigidbody rb = player.GetComponent<Rigidbody>();
             if (rb != null)
             {
                 Vector3 dir = (player.position - transform.position).normalized;
                 rb.AddForce(dir * knockbackForce, ForceMode.Impulse);
             }
-        }
-
-        public override void TakeDamage(float amount)
-        {
-            base.TakeDamage(amount);
-
-            if (!isEnraged && !isDead && currentHealth <= maxHealth * enrageHealthThreshold)
-                EnterEnrage();
-        }
-
-        private void EnterEnrage()
-        {
-            isEnraged = true;
-
-            if (agent != null)
-                agent.speed = moveSpeed * enrageSpeedMultiplier;
-
-            if (animator != null && !string.IsNullOrEmpty(paramEnraged))
-                animator.SetBool(paramEnraged, true);
-
-            Debug.Log("Hulk Zombie nổi điên!");
         }
     }
 }

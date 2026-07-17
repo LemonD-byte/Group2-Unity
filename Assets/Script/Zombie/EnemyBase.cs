@@ -44,9 +44,9 @@ namespace Enemies
         public float detectRange = 0f;
 
         [Header("Animator Parameter Names (tự đặt tên khớp với Animator)")]
-        public string paramIsWalking = "isWalking";
-        public string paramAttackTrigger = "Attack";
-        public string paramDieTrigger = "Die";
+        private string paramIsWalking = "isWalking";
+        private string paramAttackTrigger = "Attack";
+        private string paramDieTrigger = "Die";
 
         [Header("Rớt Coin khi chết")]
         [Tooltip("Prefab đồng Coin (đang gắn CoinPickup)")]
