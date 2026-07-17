@@ -10,16 +10,16 @@ EditorBuildSettings:
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
     path: Assets/Scenes/TaskMap/task 1/task 1.unity
-    guid: 390ecfe2e1b42f54eac7df41dac6b744
-  - enabled: 1
+    guid: 98dfe8fde08e7834fa19943216cbb6d4
+  - enabled: 0
     path: Assets/Scenes/MainMenu.unity
     guid: f4a8c15e18d20db4c8925321859b1b80
   - enabled: 1
     path: Assets/Scenes/TaskMap/task 2/task 2.unity
     guid: 46e6f06ade7dc4045803d64dde0b51dd
   - enabled: 1
-    path: Assets/Scenes/TaskMap/task 3/task 4.unity
-    guid: dad41e3b31bf91c4cb913460883c3442
+    path: Assets/Scenes/TaskMap/task 3/task 3.unity
+    guid: dbb22c7a783e99747b4c1abec22d7f35
   - enabled: 1
     path: Assets/Scenes/TaskMap/task 4/task 4.unity
     guid: 9e52b5e19d825284ab24ad03ec756cee

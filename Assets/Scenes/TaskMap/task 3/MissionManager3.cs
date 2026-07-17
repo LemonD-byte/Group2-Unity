@@ -185,4 +185,14 @@ public class MissionManager3 : MonoBehaviour
         if (txtResultStar3 != null)
             txtResultStar3.text = $"⭐ Máu an toàn: {finalHealth:F0}% / {minHealthPercent}% -> " + (s3 ? "<color=green>ĐẠT</color>" : "<color=red>THẤT BẠI</color>");
     }
+
+    public void RestartLevel()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+    }
+
+    public void LoadNextLevel()
+    {
+         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex + 1);
+     }
 }

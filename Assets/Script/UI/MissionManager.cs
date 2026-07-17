@@ -1,20 +1,22 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class MissionManager : MonoBehaviour
 {
     public static MissionManager Instance { get; private set; }
 
-    [Header("--- CẤU HÌNH YÊU CẦU 3 SAO ---")]
-    public int targetZombies = 30;
-    public float countdownTime = 180f; // Đếm ngược từ 180 giây
-    public float minHealthPercent = 50f;
+    [Header("--- CẤU HÌNH YÊU CẦU MÀN CHƠI ---")]
+    public int targetZombies = 30; 
+    public float countdownTime = 180f; 
+    public float minHealthPercent = 50f; 
 
     [Header("--- TEXT HIỂN THỊ KHI ĐANG CHƠI (HUD) ---")]
     public TextMeshProUGUI txtHUD_Zombies; 
     public TextMeshProUGUI txtHUD_Timer;   
     public TextMeshProUGUI txtHUD_Health; 
+    public TextMeshProUGUI txtHUD_Objectives; 
 
     [Header("--- THAM CHIẾU BẢNG KẾT QUẢ KHI THẮNG ---")]
     public Slider healthSlider; 
@@ -37,6 +39,7 @@ public class MissionManager : MonoBehaviour
     {
         currentKills = 0;
         timeRemaining = countdownTime;
+        
         if (victoryPanel != null) victoryPanel.SetActive(false);
         UpdateHUD();
     }
@@ -45,7 +48,6 @@ public class MissionManager : MonoBehaviour
     {
         if (isLevelEnded) return;
 
-        // Xử lý đếm ngược
         if (timeRemaining > 0)
         {
             timeRemaining -= Time.deltaTime;
@@ -55,77 +57,95 @@ public class MissionManager : MonoBehaviour
         UpdateHUD();
     }
 
-    // Hàm mới nhận một lúc nhiều mạng chết
+    // Hàm nhận tín hiệu mỗi khi một con zombie bị hạ gục
     public void RegisterMultipleZombiesKilled(int amount)
     {
         if (isLevelEnded) return;
-        
         currentKills += amount; 
+        if (currentKills > targetZombies) currentKills = targetZombies;
         UpdateHUD();           
     }
 
     private void UpdateHUD()
     {
-        // 1. Cập nhật số zombie diệt được
         if (txtHUD_Zombies != null)
             txtHUD_Zombies.text = $"Zombie: {currentKills}/{targetZombies}";
 
-        // 2. Cập nhật thời gian đếm ngược
         if (txtHUD_Timer != null)
-        {
             txtHUD_Timer.text = $"Thời gian: {timeRemaining:F0}s";
-            if (timeRemaining <= 10f) txtHUD_Timer.color = Color.red;
-        }
 
-        // 3. Cập nhật % máu realtime lên HUD chữ từ Slider của bạn
         if (txtHUD_Health != null && healthSlider != null)
         {
             float hpPercent = (healthSlider.value / healthSlider.maxValue) * 100f;
             txtHUD_Health.text = $"Máu: {hpPercent:F0}%";
         }
+
+        if (txtHUD_Objectives != null)
+        {
+            txtHUD_Objectives.text = "Nhiệm vụ: Tiêu diệt toàn bộ 30 Zombie!";
+        }
     }
 
+    // Kiểm tra điều kiện khi người chơi chạy ra xe trốn thoát
+    public bool IsMissionComplete()
+    {
+        return currentKills >= targetZombies;
+    }
+
+    // Hàm kích hoạt bảng chiến thắng khi qua màn
     public void OnLevelComplete()
     {
         if (isLevelEnded) return;
         isLevelEnded = true;
 
-        bool isStar1Achieved = (currentKills >= targetZombies);
-        bool isStar2Achieved = (timeRemaining > 0);
+        // Tính toán 3 mốc Sao
+        bool isStar1Achieved = (currentKills >= targetZombies); 
+        bool isStar2Achieved = (timeRemaining > 0);            
 
         float currentHealthPercent = 0f;
         if (healthSlider != null)
         {
             currentHealthPercent = (healthSlider.value / healthSlider.maxValue) * 100f;
         }
-        bool isStar3Achieved = (currentHealthPercent >= minHealthPercent);
+        bool isStar3Achieved = (currentHealthPercent >= minHealthPercent); 
 
         ShowEndGameSummary(isStar1Achieved, isStar2Achieved, isStar3Achieved, currentHealthPercent);
     }
 
     private void ShowEndGameSummary(bool s1, bool s2, bool s3, float finalHealth)
     {
-        // Ẩn toàn bộ HUD chơi game
+        // Ẩn HUD chơi game
         if (txtHUD_Zombies != null) txtHUD_Zombies.gameObject.SetActive(false);
         if (txtHUD_Timer != null) txtHUD_Timer.gameObject.SetActive(false);
         if (txtHUD_Health != null) txtHUD_Health.gameObject.SetActive(false);
+        if (txtHUD_Objectives != null) txtHUD_Objectives.gameObject.SetActive(false);
 
-        // Hiện bảng kết quả kết thúc màn
+        // Hiện bảng Victory
         if (victoryPanel != null) victoryPanel.SetActive(true);
+        
+        // Hiện chuột để bấm nút chuyển màn
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
 
         float timeSpent = countdownTime - timeRemaining;
 
         if (txtResultStar1 != null)
-            txtResultStar1.text = $"⭐ Diệt Zombie: {currentKills}/{targetZombies} -> " + (s1 ? "<color=green>ĐẠT</color>" : "<color=red>THẤT BẠI</color>");
+            txtResultStar1.text = $"⭐ Càn Quét Zombie: {currentKills}/{targetZombies} -> " + (s1 ? "<color=green>ĐẠT</color>" : "<color=red>THẤT BẠI</color>");
 
         if (txtResultStar2 != null)
-            txtResultStar2.text = $"⭐ Thời gian: Dùng {timeSpent:F1}s (Còn dư {timeRemaining:F1}s) -> " + (s2 ? "<color=green>ĐẠT</color>" : "<color=red>THẤT BẠI</color>");
+            txtResultStar2.text = $"⭐ Tốc Độ Sinh Tồn: Còn {timeRemaining:F1}s dư -> " + (s2 ? "<color=green>ĐẠT</color>" : "<color=red>THẤT BẠI</color>");
 
         if (txtResultStar3 != null)
-            txtResultStar3.text = $"⭐ Máu còn lại: {finalHealth:F0}% / {minHealthPercent}% -> " + (s3 ? "<color=green>ĐẠT</color>" : "<color=red>THẤT BẠI</color>");
+            txtResultStar3.text = $"⭐ Giữ Máu An Toàn: {finalHealth:F0}% / {minHealthPercent}% -> " + (s3 ? "<color=green>ĐẠT</color>" : "<color=red>THẤT BẠI</color>");
     }
-    public bool IsMissionComplete()
+
+    public void RestartLevel()
     {
-        return currentKills >= targetZombies;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void LoadNextLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
