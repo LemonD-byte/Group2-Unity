@@ -118,10 +118,10 @@ public class PlayerHealth : MonoBehaviour
         isDead = true;
 
         Debug.Log("Player đã chết");
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
+
+        // Hiện màn hình Death qua GameStateManager thay vì thoát game/dừng Play Mode,
+        // để không đụng độ với Pause/Inventory có thể đang mở.
+        if (GameStateManager.Instance != null)
+            GameStateManager.Instance.ShowDeath();
     }
 }

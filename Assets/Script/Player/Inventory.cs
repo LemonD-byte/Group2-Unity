@@ -2,50 +2,55 @@
 
 /// <summary>
 /// Gắn script này vào GameObject "Player".
-/// Giữ số lượng vật phẩm dùng được (lựu đạn, bình hồi máu) tại 1 chỗ duy nhất.
-/// GrenadeThrower và PlayerHealth sẽ tự tìm component này (GetComponent) nếu
-/// cùng nằm trên Player, không cần kéo tay nếu đặt chung 1 GameObject.
+/// Mặc định 0 lựu đạn / 0 bình hồi máu — chỉ có được sau khi MUA ở Shop (MainMenu).
+/// Tự đồng bộ 2 chiều với InventoryStock (PlayerPrefs) để số lượng mua ở Shop
+/// mang được sang scene chơi, và dùng hết trong scene chơi cũng trừ đúng vào kho.
 /// </summary>
 public class Inventory : MonoBehaviour
 {
-    [Header("Lựu đạn")]
-    [Tooltip("Số lượng lựu đạn hiện có. -1 = không giới hạn")]
-    public int grenadeCount = 3;
+    [Header("Lựu đạn (chỉ đọc lúc Play, nguồn thật là InventoryStock)")]
+    public int grenadeCount;
 
-    [Header("Bình hồi máu")]
-    [Tooltip("Số lượng bình hồi máu hiện có. -1 = không giới hạn")]
-    public int healPotionCount = 3;
+    [Header("Bình hồi máu (chỉ đọc lúc Play, nguồn thật là InventoryStock)")]
+    public int healPotionCount;
 
-    public bool HasGrenade => grenadeCount != 0;
-    public bool HasHealPotion => healPotionCount != 0;
+    public bool HasGrenade => grenadeCount > 0;
+    public bool HasHealPotion => healPotionCount > 0;
+
+    void Awake()
+    {
+        // Nạp đúng số lượng đã mua ở Shop vào lượt chơi này
+        grenadeCount = InventoryStock.Grenades;
+        healPotionCount = InventoryStock.HealPotions;
+    }
 
     /// <summary>Trừ 1 lựu đạn nếu còn. Trả về false nếu đã hết.</summary>
     public bool UseGrenade()
     {
-        if (grenadeCount == 0) return false;
-        if (grenadeCount > 0) grenadeCount--;
+        if (grenadeCount <= 0) return false;
+        grenadeCount--;
+        InventoryStock.Grenades = grenadeCount;
         return true;
     }
 
     /// <summary>Trừ 1 bình hồi máu nếu còn. Trả về false nếu đã hết.</summary>
     public bool UseHealPotion()
     {
-        if (healPotionCount == 0) return false;
-        if (healPotionCount > 0) healPotionCount--;
+        if (healPotionCount <= 0) return false;
+        healPotionCount--;
+        InventoryStock.HealPotions = healPotionCount;
         return true;
     }
 
-    /// <summary>Gọi khi nhặt được lựu đạn ngoài map (VD: GrenadePickup).</summary>
     public void AddGrenade(int amount = 1)
     {
-        if (grenadeCount < 0) return; // đang không giới hạn thì khỏi cộng thêm
         grenadeCount += amount;
+        InventoryStock.Grenades = grenadeCount;
     }
 
-    /// <summary>Gọi khi nhặt được bình hồi máu ngoài map (VD: HealthPickup).</summary>
     public void AddHealPotion(int amount = 1)
     {
-        if (healPotionCount < 0) return;
         healPotionCount += amount;
+        InventoryStock.HealPotions = healPotionCount;
     }
 }

@@ -496,7 +496,7 @@ Transform:
   m_GameObject: {fileID: 154299750}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.2549896, y: -0.00999, z: -68.500015}
+  m_LocalPosition: {x: -42.4, y: -0.00999, z: -82.6}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2630,7 +2630,7 @@ Transform:
   m_GameObject: {fileID: 588811572}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.036382545, w: 0.99933803}
-  m_LocalPosition: {x: -7.0549927, y: 0, z: -71.90001}
+  m_LocalPosition: {x: -38.7, y: 2.3, z: -87.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4747,7 +4747,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1039017781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4778,7 +4778,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: b557722243dc9c7459101cdd0b7f48b3, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 2c0e99211b5ed4f40a7d169b052b691c, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &1039017782
 Transform:
@@ -5607,7 +5607,7 @@ Terrain:
   m_StaticShadowCaster: 0
   m_IgnoreQualitySettings: 0
   m_ReflectionProbeUsage: 1
-  m_MaterialTemplate: {fileID: 2100000, guid: 594ea882c5a793440b60ff72d896021e, type: 2}
+  m_MaterialTemplate: {fileID: 2100000, guid: ae29ac02d08992344b9095971167e1c6, type: 2}
   m_BakeLightProbesForTrees: 1
   m_PreserveTreePrototypeLayers: 0
   m_DeringLightProbesForTrees: 1
@@ -8848,7 +8848,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7919867607730156872, guid: 00eff9c29a753674ca611bc70300a99e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 79.68587
+      value: 47.9
       objectReference: {fileID: 0}
     - target: {fileID: 7919867607730156872, guid: 00eff9c29a753674ca611bc70300a99e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -8856,7 +8856,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7919867607730156872, guid: 00eff9c29a753674ca611bc70300a99e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 65.9936
+      value: 35.2
       objectReference: {fileID: 0}
     - target: {fileID: 7919867607730156872, guid: 00eff9c29a753674ca611bc70300a99e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -10153,9 +10153,9 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_UseReflectionProbes: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -10272,7 +10272,7 @@ Transform:
   m_GameObject: {fileID: 2086096764}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -25.95499, y: 0, z: -140.90001}
+  m_LocalPosition: {x: -67, y: 0, z: -155}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -48,14 +48,15 @@ namespace Enemies
         public string paramAttackTrigger = "Attack";
         public string paramDieTrigger = "Die";
 
-        [Header("Rớt đồ khi chết")]
-        [Tooltip("Prefab bình hồi máu (đang gắn HealthPickup)")]
-        public GameObject healthPickupPrefab;
-        [Tooltip("Prefab lựu đạn nhặt được (đang gắn GrenadePickup)")]
-        public GameObject grenadePickupPrefab;
-        [Tooltip("Xác suất rớt đồ khi chết, 0 = không bao giờ rớt, 1 = luôn luôn rớt")]
+        [Header("Rớt Coin khi chết")]
+        [Tooltip("Prefab đồng Coin (đang gắn CoinPickup)")]
+        public GameObject coinPickupPrefab;
+        [Tooltip("Số coin tối thiểu / tối đa rớt ra mỗi lần")]
+        public int minCoinDrop = 1;
+        public int maxCoinDrop = 3;
+        [Tooltip("Xác suất rớt coin khi chết, 0 = không bao giờ, 1 = luôn luôn")]
         [Range(0f, 1f)]
-        public float dropChance = 0.5f;
+        public float coinDropChance = 1f;
 
         protected float currentHealth;
         protected Transform player;
@@ -201,16 +202,24 @@ namespace Enemies
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * 8f);
         }
 
-        protected virtual void TryAttack()
+        /// <summary>
+        /// Trả về true nếu đòn đánh THỰC SỰ được tung ra ở frame này (đã qua cooldown),
+        /// false nếu vẫn đang trong lúc hồi chiêu. Subclass (ví dụ Hulk) có thể override để
+        /// biết chính xác lúc nào cần chọn thêm animation/param riêng, mà không phải chép lại
+        /// logic tính cooldown ở đây.
+        /// </summary>
+        protected virtual bool TryAttack()
         {
             if (Time.time - lastAttackTime < attackCooldown)
-                return;
+                return false;
 
             lastAttackTime = Time.time;
 
             // Kích hoạt Trigger để chạy Animation. Gây sát thương thực tế sẽ do Animation Event đảm nhận.
             if (animator != null && !string.IsNullOrEmpty(paramAttackTrigger))
                 animator.SetTrigger(paramAttackTrigger);
+
+            return true;
         }
 
         /// <summary>
@@ -254,28 +263,22 @@ namespace Enemies
             if (animator != null && !string.IsNullOrEmpty(paramDieTrigger))
                 animator.SetTrigger(paramDieTrigger);
 
-            TryDropItem();
+            TryDropCoin();
             Destroy(gameObject, 2f); // Hủy GameObject sau 2 giây (đủ thời gian chạy xong Anim chết)
         }
 
         /// <summary>
-        /// Xử lý rớt ngẫu nhiên vật phẩm dựa trên tỷ lệ dropChance
+        /// Rớt Coin ngẫu nhiên khi zombie chết (thay cho rớt bom/bình hồi máu trực tiếp).
         /// </summary>
-        protected virtual void TryDropItem()
+        protected virtual void TryDropCoin()
         {
-            if (Random.value > dropChance) return;
+            if (coinPickupPrefab == null) return;
+            if (Random.value > coinDropChance) return;
 
-            bool dropHealth = Random.value < 0.5f;
-            GameObject prefabToSpawn = dropHealth ? healthPickupPrefab : grenadePickupPrefab;
-
-            // Dự phòng: Nếu loại được chọn chưa gán prefab thì đổi sang loại còn lại
-            if (prefabToSpawn == null)
-                prefabToSpawn = dropHealth ? grenadePickupPrefab : healthPickupPrefab;
-
-            if (prefabToSpawn != null)
-            {
-                Instantiate(prefabToSpawn, transform.position, Quaternion.identity);
-            }
+            GameObject coinObj = Instantiate(coinPickupPrefab, transform.position, Quaternion.identity);
+            CoinPickup coin = coinObj.GetComponent<CoinPickup>();
+            if (coin != null)
+                coin.value = Random.Range(minCoinDrop, maxCoinDrop + 1);
         }
 
         protected virtual void OnDrawGizmosSelected()

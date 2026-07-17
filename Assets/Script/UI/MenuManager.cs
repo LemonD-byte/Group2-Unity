@@ -11,8 +11,6 @@ public class MenuManager : MonoBehaviour
     public GameObject mainPanel;
     public GameObject mapSelectPanel;
     public GameObject shopPanel;
-    public GameObject settingsPanel;
-
     void Start()
     {
         ShowMain();
@@ -35,17 +33,11 @@ public class MenuManager : MonoBehaviour
         SetActivePanel(shopPanel); // hiện tại để rỗng, sau này làm thêm nội dung
     }
 
-    public void ShowSettings()
-    {
-        SetActivePanel(settingsPanel); // hiện tại để rỗng, sau này làm thêm nội dung
-    }
-
     private void SetActivePanel(GameObject panelToShow)
     {
         mainPanel.SetActive(panelToShow == mainPanel);
         mapSelectPanel.SetActive(panelToShow == mapSelectPanel);
         shopPanel.SetActive(panelToShow == shopPanel);
-        settingsPanel.SetActive(panelToShow == settingsPanel);
     }
 
     // ----- Chọn map và vào scene -----

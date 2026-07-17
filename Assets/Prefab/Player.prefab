@@ -224,8 +224,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e47312cc59c76b478b57624c15e7cea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Inventory
-  grenadeCount: 100
-  healPotionCount: 3
+  grenadeCount: 0
+  healPotionCount: 0
 --- !u!114 &2642629023662966395
 MonoBehaviour:
   m_ObjectHideFlags: 0
