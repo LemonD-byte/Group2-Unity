@@ -55,11 +55,13 @@ public class MissionManager : MonoBehaviour
         UpdateHUD();
     }
 
-    public void RegisterZombieKill()
+    // Hàm mới nhận một lúc nhiều mạng chết
+    public void RegisterMultipleZombiesKilled(int amount)
     {
         if (isLevelEnded) return;
-        currentKills++;
-        UpdateHUD();
+        
+        currentKills += amount; 
+        UpdateHUD();           
     }
 
     private void UpdateHUD()
@@ -121,5 +123,9 @@ public class MissionManager : MonoBehaviour
 
         if (txtResultStar3 != null)
             txtResultStar3.text = $"⭐ Máu còn lại: {finalHealth:F0}% / {minHealthPercent}% -> " + (s3 ? "<color=green>ĐẠT</color>" : "<color=red>THẤT BẠI</color>");
+    }
+    public bool IsMissionComplete()
+    {
+        return currentKills >= targetZombies;
     }
 }

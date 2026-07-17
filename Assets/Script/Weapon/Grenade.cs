@@ -56,14 +56,16 @@ public class Grenade : MonoBehaviour
     {
         if (hasExploded)
             return;
-
         hasExploded = true;
-
         Collider[] hits = Physics.OverlapSphere(
             transform.position,
             explosionRadius,
             damageLayer,
             QueryTriggerInteraction.Collide);
+
+        System.Collections.Generic.List<Enemies.EnemyBase> damagedEnemies = new System.Collections.Generic.List<Enemies.EnemyBase>();
+        
+        int zombiesKilledInThisExplosion = 0; 
 
         foreach (Collider hit in hits)
         {
@@ -71,14 +73,21 @@ public class Grenade : MonoBehaviour
 
             if (enemy != null)
             {
-                enemy.TakeDamage(explosionDamage);
+                if (!damagedEnemies.Contains(enemy))
+                {
+                    damagedEnemies.Add(enemy);
+                    enemy.TakeDamage(explosionDamage);
+                    if (enemy == null || !enemy.gameObject.activeInHierarchy)
+                    {
+                        zombiesKilledInThisExplosion++;
+                    }
+                }
                 continue;
             }
 
             if (damagePlayer)
             {
                 PlayerHealth player = hit.GetComponentInParent<PlayerHealth>();
-
                 if (player != null)
                 {
                     player.TakeDamage(explosionDamage);
@@ -86,11 +95,14 @@ public class Grenade : MonoBehaviour
             }
         }
 
+        if (zombiesKilledInThisExplosion > 0 && MissionManager.Instance != null)
+        {
+            MissionManager.Instance.RegisterMultipleZombiesKilled(zombiesKilledInThisExplosion);
+        }
         if (explosionEffectPrefab != null)
         {
             Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
         }
-
         Destroy(gameObject);
     }
 
