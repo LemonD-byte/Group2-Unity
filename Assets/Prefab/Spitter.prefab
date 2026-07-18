@@ -1014,13 +1014,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemies.SpitterZombie
   maxHealth: 100
-  moveSpeed: 6
+  moveSpeed: 3.5
   damage: 10
-  attackRange: 8
+  attackRange: 18.14
   attackCooldown: 1.5
   standoffRatio: 0.85
   destinationRefreshInterval: 0.2
   minPlayerSeparation: 1.2
+  detectRange: 0
   coinPickupPrefab: {fileID: 3084925368698177842, guid: e8b44c807653b8f4a8e4087bff083e00, type: 3}
   coinDropAmount: 10
   bulletPrefab: {fileID: 9121675157726882047, guid: b9766e34492a06c49b67deb538194ae5, type: 3}

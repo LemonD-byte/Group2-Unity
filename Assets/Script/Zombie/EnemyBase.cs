@@ -40,6 +40,11 @@ namespace Enemies
                  "cách này vì bị đẩy ngược ra mỗi frame.")]
         public float minPlayerSeparation = 1.2f;
 
+        [Header("Phát hiện người chơi")]
+        [Tooltip("Để 0 = luôn đuổi theo player ngay từ đầu. Đặt > 0 nếu muốn " +
+                 "zombie đứng Idle cho tới khi player vào tầm này.")]
+        public float detectRange = 0f;
+
         [Header("Animator Parameter Names (tự đặt tên khớp với Animator)")]
         private string paramIsWalking = "isWalking";
         private string paramAttackTrigger = "Attack";
@@ -56,6 +61,7 @@ namespace Enemies
         protected Animator animator;
         protected float lastAttackTime;
         protected bool isDead;
+        protected bool hasDetectedPlayer;
 
         public float CurrentHealth => currentHealth;
         public float MaxHealth => maxHealth;
@@ -63,6 +69,7 @@ namespace Enemies
 
         // Cache tính toán hiệu năng
         private float attackRangeSqr;
+        private float detectRangeSqr;
         private float standoffDistance;
         private float nextDestinationRefreshTime;
 
@@ -90,6 +97,7 @@ namespace Enemies
             agent.speed = moveSpeed;
 
             attackRangeSqr = attackRange * attackRange;
+            detectRangeSqr = detectRange * detectRange;
 
             // Điểm dừng thực tế trước khi chạm vào player để tránh xung đột với ResolvePlayerOverlap
             standoffDistance = Mathf.Max(minPlayerSeparation + 0.05f, attackRange * standoffRatio);
@@ -100,6 +108,8 @@ namespace Enemies
             {
                 player = playerObj.transform;
             }
+
+            hasDetectedPlayer = detectRange <= 0f;
         }
 
         protected virtual void Update()
@@ -110,7 +120,19 @@ namespace Enemies
             toPlayer.y = 0f;
             float distanceSqr = toPlayer.sqrMagnitude;
 
-            // Xử lý Tấn công hoặc Đuổi theo (zombie luôn phát hiện player ngay khi spawn)
+            // Xử lý phát hiện người chơi
+            if (!hasDetectedPlayer)
+            {
+                agent.isStopped = true;
+                SetWalking(false);
+
+                if (distanceSqr <= detectRangeSqr)
+                    hasDetectedPlayer = true;
+                else
+                    return;
+            }
+
+            // Xử lý Tấn công hoặc Đuổi theo
             if (distanceSqr <= attackRangeSqr)
             {
                 agent.isStopped = true;
@@ -265,6 +287,12 @@ namespace Enemies
 
         protected virtual void OnDrawGizmosSelected()
         {
+            if (detectRange > 0f)
+            {
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawWireSphere(transform.position, detectRange);
+            }
+
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, attackRange);
 

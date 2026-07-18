@@ -178,7 +178,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 885eac34fd0d577439e6670a7ca3777e, type: 3}
       propertyPath: m_Name
-      value: Normall
+      value: ZombieNormal
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 885eac34fd0d577439e6670a7ca3777e, type: 3}
       propertyPath: m_Layer
@@ -369,14 +369,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60b5c082d0cfb7047b039c668666766f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemies.NormalZombie
-  maxHealth: 100
-  moveSpeed: 5
-  damage: 10
+  maxHealth: 50
+  moveSpeed: 3
+  damage: 12
   attackRange: 3
   attackCooldown: 4
   standoffRatio: 0.3
   destinationRefreshInterval: 0.2
   minPlayerSeparation: 0.7
+  detectRange: 50
   coinPickupPrefab: {fileID: 3084925368698177842, guid: e8b44c807653b8f4a8e4087bff083e00, type: 3}
   coinDropAmount: 3
 --- !u!136 &5057789880358633418

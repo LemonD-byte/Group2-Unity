@@ -58,6 +58,11 @@ public class ZombieSpawner : MonoBehaviour
     [Header("Nhiều đợt (Wave) - để trống nếu map chỉ có 1 đợt, 1 loại quái duy nhất (VD Task 1)")]
     public List<ZombieWave> waves = new List<ZombieWave>();
 
+    [Header("Cấu hình nhanh (chỉ dùng khi mảng Waves ở trên để trống)")]
+    public int totalZombiesForThisMap = 10; // Tổng số zombie của màn này
+    public int maxZombiesAliveAtOnce = 5;   // Số lượng zombie tối đa xuất hiện cùng lúc trên map
+    public float spawnDelay = 2f;           // Thời gian giãn cách giữa mỗi lần spawn
+
     [Header("Khởi động")]
     [Tooltip("Bật sẵn = Spawner tự chạy khi vào scene. LevelController sẽ tự tắt cờ này nếu " +
              "màn có thoại mở đầu, và tự gọi BeginWaves() sau khi thoại xong.")]
@@ -91,13 +96,28 @@ public class ZombieSpawner : MonoBehaviour
             return;
         }
 
+        // Nếu không cấu hình Waves thủ công -> tự tạo 1 đợt duy nhất, 1 loại quái,
+        // từ 3 ô cấu hình nhanh (giữ nguyên hành vi cũ cho map 1 loại quái như Task 1).
         if (waves == null || waves.Count == 0)
         {
-            Debug.LogError("ZombieSpawner: Chưa cấu hình bất kỳ Wave nào!");
-            return;
+            effectiveWaves = new List<ZombieWave>
+            {
+                new ZombieWave
+                {
+                    waveName = "Đợt 1",
+                    spawnEntries = new List<ZombieSpawnEntry>
+                    {
+                        new ZombieSpawnEntry { zombiePrefab = zombiePrefab, count = totalZombiesForThisMap }
+                    },
+                    maxZombiesAliveAtOnce = maxZombiesAliveAtOnce,
+                    spawnDelay = spawnDelay
+                }
+            };
         }
-
-        effectiveWaves = waves;
+        else
+        {
+            effectiveWaves = waves;
+        }
 
         totalZombiesAllWaves = 0;
         foreach (var w in effectiveWaves) totalZombiesAllWaves += w.TotalCount();
