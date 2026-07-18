@@ -1,20 +1,16 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Bộ điều phối trung tâm cho MỌI UI có thể "chặn" gameplay: Pause, Inventory, Death...
-/// Đây là nơi DUY NHẤT được phép đổi Time.timeScale và Cursor trong toàn bộ scene chơi.
-/// Mọi script khác (InventoryUI, PauseMenu, PlayerHealth...) không tự ý đổi timeScale/Cursor
-/// nữa, mà gọi qua các hàm Open/Close ở đây — nhờ vậy không bao giờ xảy ra chuyện:
-///   - Bấm E mở Inventory trong lúc đang Pause -> 2 panel chồng lên nhau.
-///   - Đóng Inventory xong Cursor bị khoá nhầm vì Pause vẫn đang mở.
-///   - Chết trong lúc đang mở Inventory/Pause -> panel cũ vẫn hiện đè lên màn hình Death.
-///
-/// Gắn script này vào 1 GameObject rỗng tên "GameManager" trong MỖI scene chơi (TaskMap).
+/// Bộ điều phối trung tâm cho MỌI UI và lưu trữ dữ liệu vũ khí toàn cục.
 /// </summary>
 public class GameStateManager : MonoBehaviour
 {
     public enum UIState { Playing, Paused, Inventory, Dead }
 
+    // Đổi sang kiểu public static chuẩn để gọi GameManager.Instance từ mọi nơi
     public static GameStateManager Instance { get; private set; }
 
     [Header("Panel (kéo từ Canvas vào, để sẵn Inactive trong scene)")]
@@ -22,20 +18,46 @@ public class GameStateManager : MonoBehaviour
     public GameObject inventoryPanel;
     public GameObject deathPanel;
 
+    // ==========================================
+    // KHU VỰC MẠNH THÊM VÀO: LƯU TRỮ DỮ LIỆU CHỌN VŨ KHÍ
+    // ==========================================
+    [Header("Dữ liệu chọn màn & Vũ khí (Mạnh thêm)")]
+    public int currentMapIndex = 1; 
+    public string selectedMainWeapon = "";
+    public string selectedSecondaryWeapon = "pistol_001"; // Mặc định có pistol
+    public string selectedMeleeWeapon = "";
+
+    [Header("Shop Upgrades (Mạnh thêm)")]
+    public float damageMultiplier = 1f; // Thuốc tăng sát thương từ Shop
+    // ==========================================
+
     public UIState CurrentState { get; private set; } = UIState.Playing;
 
     void Awake()
     {
-        Instance = this;
+        // Giữ lại cơ chế Singleton nhưng thêm DontDestroyOnLoad để giữ dữ liệu khi đổi Map
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-            OnEscapePressed();
+        // Chỉ chạy các phím tắt UI nếu đang ở trong màn chơi chính (Tránh bấm nhầm ngoài Main Menu)
+        if (SceneManager.GetActiveScene().name != "MainMenu") 
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+                OnEscapePressed();
 
-        if (Input.GetKeyDown(KeyCode.E))
-            OnInventoryKeyPressed();
+            if (Input.GetKeyDown(KeyCode.E))
+                OnInventoryKeyPressed();
+        }
     }
 
     // ---------- Escape: mở/đóng Pause, hoặc đóng Inventory nếu đang mở ----------
@@ -50,11 +72,9 @@ public class GameStateManager : MonoBehaviour
                 ClosePause();
                 break;
             case UIState.Inventory:
-                // Escape ưu tiên đóng Inventory trước, không mở chồng Pause lên trên
                 CloseInventory();
                 break;
             case UIState.Dead:
-                // Đã chết thì Escape không làm gì cả
                 break;
         }
     }
@@ -66,13 +86,12 @@ public class GameStateManager : MonoBehaviour
             OpenInventory();
         else if (CurrentState == UIState.Inventory)
             CloseInventory();
-        // Đang Paused hoặc Dead thì bấm E không có tác dụng gì — tránh mở chồng panel
     }
 
     // ---------- Pause ----------
     public void OpenPause()
     {
-        if (CurrentState != UIState.Playing) return; // không mở chồng lên Inventory/Dead
+        if (CurrentState != UIState.Playing) return; 
         CurrentState = UIState.Paused;
         SetPaused(true);
         if (pausePanel != null) pausePanel.SetActive(true);
@@ -108,7 +127,6 @@ public class GameStateManager : MonoBehaviour
     {
         CurrentState = UIState.Dead;
 
-        // Đóng hết panel khác đang mở (nếu có) để tránh chồng lấp lên màn hình Death
         if (pausePanel != null) pausePanel.SetActive(false);
         if (inventoryPanel != null) inventoryPanel.SetActive(false);
 

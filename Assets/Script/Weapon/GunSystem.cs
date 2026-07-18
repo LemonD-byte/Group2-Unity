@@ -93,7 +93,7 @@ public class GunSystem : MonoBehaviour
         // Gán sát thương cho viên đạn vừa tạo (đồng bộ với damage của súng)
         Bullet bulletScript = bullet.GetComponent<Bullet>();
         if (bulletScript != null)
-            bulletScript.bulletDamage = damage;
+            bulletScript.bulletDamage = damage * GameStateManager.Instance.damageMultiplier;
 
         // Đẩy đạn bay đi theo hướng camera
         Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
