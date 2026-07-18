@@ -794,8 +794,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameStateManager
   pausePanel: {fileID: 564107366}
-  inventoryPanel: {fileID: 0}
+  inventoryPanel: {fileID: 1294710276}
   deathPanel: {fileID: 2139708480}
+  currentMapIndex: 1
+  selectedMainWeapon: 
+  selectedSecondaryWeapon: pistol_001
+  selectedMeleeWeapon: 
+  damageMultiplier: 1
 --- !u!4 &155456017
 Transform:
   m_ObjectHideFlags: 0
@@ -3317,6 +3322,7 @@ RectTransform:
   - {fileID: 59933076}
   - {fileID: 957132180}
   - {fileID: 375116525}
+  - {fileID: 1294710279}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3427,7 +3433,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 1
   m_UseReflectionProbes: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -5412,6 +5418,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 499089079976169004, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
+      propertyPath: isMainUnlocked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1997586828369584403, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
+      propertyPath: ammoText
+      value: 
+      objectReference: {fileID: 209852097}
     - target: {fileID: 2117842967192060517, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.6
@@ -5430,7 +5444,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2117842967192060517, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.03
+      value: 0.87
       objectReference: {fileID: 0}
     - target: {fileID: 2117842967192060517, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5464,6 +5478,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3218567226286577814, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3874235057530597063, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
       propertyPath: hpText
       value: 
@@ -5488,6 +5506,22 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: -0.055801034
       objectReference: {fileID: 0}
+    - target: {fileID: 5784028559012907118, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
+      propertyPath: damage
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 5784028559012907118, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
+      propertyPath: ammoText
+      value: 
+      objectReference: {fileID: 209852097}
+    - target: {fileID: 5784028559012907118, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
+      propertyPath: enemyLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116070378262517653, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7386283925304300789, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
       propertyPath: speed
       value: 5
@@ -5497,56 +5531,30 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 8197609556438734256, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
+      propertyPath: damage
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8197609556438734256, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
       propertyPath: ammoText
       value: 
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
+      objectReference: {fileID: 209852097}
+    m_RemovedComponents:
+    - {fileID: 2060893504540068847, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7401597810289875142, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 890661893}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
 --- !u!114 &890661890 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6347519814291571834, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
   m_PrefabInstance: {fileID: 890661889}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 890661892}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e47312cc59c76b478b57624c15e7cea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Inventory
---- !u!1 &890661892 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7401597810289875142, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
-  m_PrefabInstance: {fileID: 890661889}
-  m_PrefabAsset: {fileID: 0}
---- !u!136 &890661893
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 890661892}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.4916938
-  m_Height: 3.037775
-  m_Direction: 1
-  m_Center: {x: -0.009690622, y: -0.019163745, z: -0.000000085149495}
 --- !u!1001 &905678988
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5898,12 +5906,13 @@ MonoBehaviour:
   - waveName: 1
     spawnEntries:
     - zombiePrefab: {fileID: 2236095959940974612, guid: 726113ffb74045a48b2067face580cb3, type: 3}
-      count: 5
-    maxZombiesAliveAtOnce: 5
+      count: 10
+    - zombiePrefab: {fileID: 3098937471035368081, guid: 6370706075f307847bd41c9528f61705, type: 3}
+      count: 15
+    - zombiePrefab: {fileID: 3357297224374994323, guid: 3bf58590f9694434d9c1f85dd268095d, type: 3}
+      count: 10
+    maxZombiesAliveAtOnce: 10
     spawnDelay: 2
-  totalZombiesForThisMap: 0
-  maxZombiesAliveAtOnce: 6
-  spawnDelay: 2
   autoStart: 0
   onZombieCountChanged:
     m_PersistentCalls:
@@ -8618,12 +8627,12 @@ RectTransform:
   - {fileID: 1280172830}
   - {fileID: 949449053}
   - {fileID: 673634002}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 571308795}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 354.6, y: 205.7}
-  m_SizeDelta: {x: 509.2, y: 211.4}
+  m_AnchoredPosition: {x: 4.6000366, y: -14.300018}
+  m_SizeDelta: {x: -190.79993, y: -228.60004}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1331232659
 GameObject:
@@ -13623,7 +13632,6 @@ SceneRoots:
   - {fileID: 890661889}
   - {fileID: 932548173}
   - {fileID: 571308795}
-  - {fileID: 1294710279}
   - {fileID: 155456017}
   - {fileID: 428528538}
   - {fileID: 525549600}

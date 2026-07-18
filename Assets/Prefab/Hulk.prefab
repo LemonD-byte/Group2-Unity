@@ -794,7 +794,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8128668236925612103, guid: ba6d20e6dde3f5d488192185d4c52fee, type: 3}
       propertyPath: m_Name
-      value: Zombie Hulk
+      value: Hulk
       objectReference: {fileID: 0}
     - target: {fileID: 8128668236925612103, guid: ba6d20e6dde3f5d488192185d4c52fee, type: 3}
       propertyPath: m_Layer
@@ -997,15 +997,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 071b26d2facb6bc438a45fe38a1581b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemies.HulkZombie
-  maxHealth: 100
-  moveSpeed: 5
-  damage: 10
-  attackRange: 4.16
-  attackCooldown: 1.5
+  maxHealth: 500
+  moveSpeed: 7
+  damage: 30
+  attackRange: 5
+  attackCooldown: 2
   standoffRatio: 0.426
   destinationRefreshInterval: 0.5
   minPlayerSeparation: 2.73
-  detectRange: 4.9
   coinPickupPrefab: {fileID: 3084925368698177842, guid: e8b44c807653b8f4a8e4087bff083e00, type: 3}
   coinDropAmount: 50
   knockbackForce: 15

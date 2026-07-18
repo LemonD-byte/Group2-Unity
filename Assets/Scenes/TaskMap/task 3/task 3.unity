@@ -1260,7 +1260,7 @@ Transform:
   m_GameObject: {fileID: 90177197}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 41.88, y: 0, z: -25.169998}
+  m_LocalPosition: {x: 50.28, y: -0.01, z: -9.62}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3564,7 +3564,7 @@ Transform:
   m_GameObject: {fileID: 264391944}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 41.88, y: 0, z: -25.169998}
+  m_LocalPosition: {x: 45.71, y: 0.31, z: -25.169998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4791,14 +4791,13 @@ MonoBehaviour:
   - waveName: 1
     spawnEntries:
     - zombiePrefab: {fileID: 3357297224374994323, guid: 3bf58590f9694434d9c1f85dd268095d, type: 3}
-      count: 5
+      count: 20
     - zombiePrefab: {fileID: 3098937471035368081, guid: 6370706075f307847bd41c9528f61705, type: 3}
-      count: 5
-    maxZombiesAliveAtOnce: 5
+      count: 6
+    - zombiePrefab: {fileID: 3357297224374994323, guid: 3bf58590f9694434d9c1f85dd268095d, type: 3}
+      count: 7
+    maxZombiesAliveAtOnce: 20
     spawnDelay: 2
-  totalZombiesForThisMap: 30
-  maxZombiesAliveAtOnce: 6
-  spawnDelay: 2
   autoStart: 1
   onZombieCountChanged:
     m_PersistentCalls:
@@ -9680,6 +9679,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 499089079976169004, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
+      propertyPath: 'mainWeapons.Array.data[0]'
+      value: 
+      objectReference: {fileID: 786110369}
+    - target: {fileID: 499089079976169004, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
+      propertyPath: 'mainWeapons.Array.data[1]'
+      value: 
+      objectReference: {fileID: 786110368}
+    - target: {fileID: 1997586828369584403, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
+      propertyPath: ammoText
+      value: 
+      objectReference: {fileID: 1790205705}
     - target: {fileID: 2117842967192060517, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.6
@@ -9732,6 +9743,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3218567226286577814, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3874235057530597063, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
       propertyPath: hpText
       value: 
@@ -9756,6 +9771,18 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: -0.055801034
       objectReference: {fileID: 0}
+    - target: {fileID: 5784028559012907118, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
+      propertyPath: ammoText
+      value: 
+      objectReference: {fileID: 1790205705}
+    - target: {fileID: 5784028559012907118, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
+      propertyPath: enemyLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116070378262517653, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7386283925304300789, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
       propertyPath: speed
       value: 5
@@ -9767,54 +9794,33 @@ PrefabInstance:
     - target: {fileID: 8197609556438734256, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
       propertyPath: ammoText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1790205705}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7401597810289875142, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 786110370}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
 --- !u!114 &786110367 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6347519814291571834, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
   m_PrefabInstance: {fileID: 786110366}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 786110369}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e47312cc59c76b478b57624c15e7cea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Inventory
---- !u!1 &786110369 stripped
+--- !u!1 &786110368 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 7401597810289875142, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
+  m_CorrespondingSourceObject: {fileID: 8258565189837432753, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
   m_PrefabInstance: {fileID: 786110366}
   m_PrefabAsset: {fileID: 0}
---- !u!136 &786110370
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+--- !u!1 &786110369 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3218567226286577814, guid: 8f936184fa6621a498107633ad21ad9c, type: 3}
+  m_PrefabInstance: {fileID: 786110366}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 786110369}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.4916938
-  m_Height: 3.037775
-  m_Direction: 1
-  m_Center: {x: -0.009690622, y: -0.019163745, z: -0.000000085149495}
 --- !u!1 &797735955 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -6075601670705334153, guid: 064e7348ca8cccc4d800e6aa0bae2d28, type: 3}
@@ -12476,14 +12482,13 @@ MonoBehaviour:
   - waveName: 1
     spawnEntries:
     - zombiePrefab: {fileID: 2236095959940974612, guid: 726113ffb74045a48b2067face580cb3, type: 3}
-      count: 5
+      count: 10
     - zombiePrefab: {fileID: 3357297224374994323, guid: 3bf58590f9694434d9c1f85dd268095d, type: 3}
-      count: 5
-    maxZombiesAliveAtOnce: 10
+      count: 10
+    - zombiePrefab: {fileID: 3098937471035368081, guid: 6370706075f307847bd41c9528f61705, type: 3}
+      count: 10
+    maxZombiesAliveAtOnce: 20
     spawnDelay: 2
-  totalZombiesForThisMap: 30
-  maxZombiesAliveAtOnce: 6
-  spawnDelay: 2
   autoStart: 0
   onZombieCountChanged:
     m_PersistentCalls:
@@ -15271,8 +15276,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MissionManager3, Assembly-CSharp
+      - m_Target: {fileID: 185586662}
+        m_TargetAssemblyTypeName: MissionManager, Assembly-CSharp
         m_MethodName: LoadNextLevel
         m_Mode: 1
         m_Arguments:
@@ -19157,6 +19162,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7256141767752563356, guid: 00eff9c29a753674ca611bc70300a99e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 249839829}
+    - targetCorrespondingSourceObject: {fileID: 8104734964665712608, guid: 00eff9c29a753674ca611bc70300a99e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 00eff9c29a753674ca611bc70300a99e, type: 3}
 --- !u!1 &1429513388 stripped
 GameObject:
@@ -19673,6 +19681,11 @@ MonoBehaviour:
   pausePanel: {fileID: 1701306452}
   inventoryPanel: {fileID: 0}
   deathPanel: {fileID: 1625410951}
+  currentMapIndex: 1
+  selectedMainWeapon: 
+  selectedSecondaryWeapon: pistol_001
+  selectedMeleeWeapon: 
+  damageMultiplier: 1
 --- !u!4 &1485950455
 Transform:
   m_ObjectHideFlags: 0
