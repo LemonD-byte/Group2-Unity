@@ -7,6 +7,8 @@ namespace Enemies
     [RequireComponent(typeof(Animator))]
     public abstract class EnemyBase : MonoBehaviour
     {
+        public static event System.Action<EnemyBase> OnAnyZombieDied;
+
         [Header("Stats (tự nhập riêng cho từng prefab)")]
         public float maxHealth = 100f;
         public float moveSpeed = 3.5f;
@@ -259,7 +261,10 @@ namespace Enemies
                 animator.SetTrigger(paramDieTrigger);
 
             TryDropCoin();
-            Destroy(gameObject, 2f); // Hủy GameObject sau 2 giây (đủ thời gian chạy xong Anim chết)
+
+            OnAnyZombieDied?.Invoke(this);
+
+            Destroy(gameObject, 2f);
         }
 
         protected virtual void TryDropCoin()

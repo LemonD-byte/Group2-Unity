@@ -3,7 +3,7 @@ using UnityEngine;
 public class ObjectiveItem : MonoBehaviour
 {
     [Header("--- CẤU HÌNH TƯƠNG TÁC ---")]
-    public float interactionDistance = 3f; 
+    public float interactionDistance = 3f;
     private Transform playerTransform;
 
     void Start()
@@ -19,11 +19,13 @@ public class ObjectiveItem : MonoBehaviour
             return;
         }
 
-        float distance = Vector3.Distance(transform.position, playerTransform.position);
+        // Không cho nhặt trong lúc đang hiện thoại (tránh phá vỡ thứ tự thoại wave1/wave2 của Task 3)
+        if (DialogueManager.Instance != null && DialogueManager.Instance.IsDialogueActive) return;
 
+        float distance = Vector3.Distance(transform.position, playerTransform.position);
         if (distance <= interactionDistance)
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.Z))
             {
                 Collect();
             }
@@ -49,12 +51,13 @@ public class ObjectiveItem : MonoBehaviour
 
     void Collect()
     {
-        if (MissionManager3.Instance != null)
+        // Đổi từ MissionManager3 (đã xóa khi gộp) sang MissionManager (class gộp chung)
+        if (MissionManager.Instance != null)
         {
-            MissionManager3.Instance.CollectMaterial();
+            MissionManager.Instance.CollectMaterial();
         }
-        
-        Destroy(gameObject); 
+
+        Destroy(gameObject);
     }
 
     void OnDrawGizmosSelected()

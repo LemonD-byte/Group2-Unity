@@ -28,7 +28,7 @@ public class CarInteraction3 : MonoBehaviour
             return; 
         }
 
-        if (MissionManager3.Instance != null && !MissionManager3.Instance.IsMissionComplete())
+        if (MissionManager.Instance != null && !MissionManager.Instance.IsMissionComplete())
         {
             if (interactPromptUI != null && interactPromptUI.activeSelf)
             {
@@ -79,9 +79,9 @@ public class CarInteraction3 : MonoBehaviour
 
     void TriggerLevelComplete()
     {
-        if (MissionManager3.Instance != null)
+        if (MissionManager.Instance != null)
         {
-            MissionManager3.Instance.OnLevelComplete();
+            MissionManager.Instance.OnLevelComplete();
         }
 
         if (interactPromptUI != null) interactPromptUI.SetActive(false);

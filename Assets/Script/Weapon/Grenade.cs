@@ -95,10 +95,6 @@ public class Grenade : MonoBehaviour
             }
         }
 
-        if (zombiesKilledInThisExplosion > 0 && MissionManager.Instance != null)
-        {
-            MissionManager.Instance.RegisterMultipleZombiesKilled(zombiesKilledInThisExplosion);
-        }
         if (explosionEffectPrefab != null)
         {
             Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);

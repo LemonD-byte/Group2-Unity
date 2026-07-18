@@ -1,45 +1,73 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Enemies;
 
 public class MissionManager : MonoBehaviour
 {
     public static MissionManager Instance { get; private set; }
 
-    [Header("--- CẤU HÌNH YÊU CẦU MÀN CHƠI ---")]
-    public int targetZombies = 30; 
-    public float countdownTime = 180f; 
-    public float minHealthPercent = 50f; 
+    [Header("--- CẤU HÌNH CHUNG ---")]
+    public int targetZombies = 30;
+    public float countdownTime = 180f;
+    public float minHealthPercent = 50f;
 
-    [Header("--- TEXT HIỂN THỊ KHI ĐANG CHƠI (HUD) ---")]
-    public TextMeshProUGUI txtHUD_Zombies; 
-    public TextMeshProUGUI txtHUD_Timer;   
-    public TextMeshProUGUI txtHUD_Health; 
-    public TextMeshProUGUI txtHUD_Objectives; 
+    [Header("--- Task 3: nhặt vật phẩm (để 0 nếu màn không dùng) ---")]
+    public int totalMaterialsNeeded = 0;
+    private int currentMaterialsCollected = 0;
 
-    [Header("--- THAM CHIẾU BẢNG KẾT QUẢ KHI THẮNG ---")]
-    public Slider healthSlider; 
-    public GameObject victoryPanel; 
+    [Header("--- Task 4: hoàn thành ngay khi hạ Boss Hulk ---")]
+    public bool completeOnBossKill = false;
+
+    [Header("--- HUD ---")]
+    public TextMeshProUGUI txtHUD_Zombies;
+    public TextMeshProUGUI txtHUD_Timer;
+    public TextMeshProUGUI txtHUD_Health;
+    public TextMeshProUGUI txtHUD_Objectives;
+
+    [Header("--- BẢNG KẾT QUẢ ---")]
+    public Slider healthSlider;
+    public GameObject victoryPanel;
     public TextMeshProUGUI txtResultStar1;
     public TextMeshProUGUI txtResultStar2;
     public TextMeshProUGUI txtResultStar3;
+
+    [Header("--- SỰ KIỆN (LevelController lắng nghe để chèn thoại) ---")]
+    [Tooltip("Bắn ra NGAY khi đủ điều kiện thắng, TRƯỚC KHI hiện bảng thắng. " +
+             "Nếu có LevelController lắng nghe -> nó tự phát thoại kết thúc rồi gọi ShowVictoryPanel(). " +
+             "Nếu không ai lắng nghe -> bảng thắng hiện ngay lập tức (giữ hành vi cũ).")]
+    public UnityEvent onMissionCompleted;
+
+    [Tooltip("Task 3: bắn ra đúng 1 lần khi vừa đủ vật phẩm, để LevelController phát thoại rồi tự bật spawner đợt 2.")]
+    public UnityEvent onMaterialsCompleted;
 
     private int currentKills = 0;
     private float timeRemaining;
     private bool isLevelEnded = false;
 
+    private bool s1Cached, s2Cached, s3Cached;
+    private float finalHealthCached;
+
     void Awake()
     {
         if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        else { Destroy(gameObject); return; }
+
+        EnemyBase.OnAnyZombieDied += HandleZombieDied;
+    }
+
+    void OnDestroy()
+    {
+        EnemyBase.OnAnyZombieDied -= HandleZombieDied;
     }
 
     void Start()
     {
         currentKills = 0;
+        currentMaterialsCollected = 0;
         timeRemaining = countdownTime;
-        
         if (victoryPanel != null) victoryPanel.SetActive(false);
         UpdateHUD();
     }
@@ -48,28 +76,54 @@ public class MissionManager : MonoBehaviour
     {
         if (isLevelEnded) return;
 
+        // Đóng băng thời gian khi đang hiện hộp thoại — chỉ tính giờ sau khi thoại đóng lại
+        if (DialogueManager.Instance != null && DialogueManager.Instance.IsDialogueActive)
+        {
+            UpdateHUD();
+            return;
+        }
+
         if (timeRemaining > 0)
         {
             timeRemaining -= Time.deltaTime;
             if (timeRemaining < 0) timeRemaining = 0;
         }
+        UpdateHUD();
+    }
+
+    private void HandleZombieDied(EnemyBase enemy)
+    {
+        if (isLevelEnded) return;
+
+        currentKills++;
+
+        // Task 4: con vừa chết CHÍNH LÀ Boss Hulk -> thắng ngay
+        if (completeOnBossKill && enemy is HulkZombie)
+        {
+            OnLevelComplete();
+            return;
+        }
 
         UpdateHUD();
     }
 
-    // Hàm nhận tín hiệu mỗi khi một con zombie bị hạ gục
-    public void RegisterMultipleZombiesKilled(int amount)
+    // Task 3: gọi từ ObjectiveItem.cs khi nhặt 1 vật phẩm
+    public void CollectMaterial()
     {
         if (isLevelEnded) return;
-        currentKills += amount; 
-        if (currentKills > targetZombies) currentKills = targetZombies;
-        UpdateHUD();           
+        currentMaterialsCollected++;
+        UpdateHUD();
+
+        if (currentMaterialsCollected == totalMaterialsNeeded)
+            onMaterialsCompleted?.Invoke();
     }
 
     private void UpdateHUD()
     {
         if (txtHUD_Zombies != null)
-            txtHUD_Zombies.text = $"Zombie: {currentKills}/{targetZombies}";
+            txtHUD_Zombies.text = totalMaterialsNeeded > 0
+                ? $"Đã diệt: {currentKills} Zombie"
+                : $"Zombie: {currentKills}/{targetZombies}";
 
         if (txtHUD_Timer != null)
             txtHUD_Timer.text = $"Thời gian: {timeRemaining:F0}s";
@@ -82,70 +136,64 @@ public class MissionManager : MonoBehaviour
 
         if (txtHUD_Objectives != null)
         {
-            txtHUD_Objectives.text = "Nhiệm vụ: Tiêu diệt toàn bộ 30 Zombie!";
+            if (totalMaterialsNeeded > 0)
+                txtHUD_Objectives.text = currentMaterialsCollected < totalMaterialsNeeded
+                    ? $"Nhiệm vụ: Tìm nguyên liệu thuốc ({currentMaterialsCollected}/{totalMaterialsNeeded})"
+                    : "<color=green>ĐỦ NGUYÊN LIỆU! CHẠY NGAY RA XE!</color>";
+            else if (completeOnBossKill)
+                txtHUD_Objectives.text = "Nhiệm vụ: Sống sót & tiêu diệt Boss Hulk";
+            else
+                txtHUD_Objectives.text = $"Nhiệm vụ: Tiêu diệt {targetZombies} Zombie!";
         }
     }
 
-    // Kiểm tra điều kiện khi người chơi chạy ra xe trốn thoát
     public bool IsMissionComplete()
     {
+        if (totalMaterialsNeeded > 0) return currentMaterialsCollected >= totalMaterialsNeeded;
+        if (completeOnBossKill) return isLevelEnded;
         return currentKills >= targetZombies;
     }
 
-    // Hàm kích hoạt bảng chiến thắng khi qua màn
     public void OnLevelComplete()
     {
         if (isLevelEnded) return;
         isLevelEnded = true;
 
-        // Tính toán 3 mốc Sao
-        bool isStar1Achieved = (currentKills >= targetZombies); 
-        bool isStar2Achieved = (timeRemaining > 0);            
+        s1Cached = totalMaterialsNeeded > 0
+            ? currentMaterialsCollected >= totalMaterialsNeeded
+            : (completeOnBossKill ? true : currentKills >= targetZombies);
+        s2Cached = (timeRemaining > 0);
 
-        float currentHealthPercent = 0f;
+        finalHealthCached = 0f;
         if (healthSlider != null)
-        {
-            currentHealthPercent = (healthSlider.value / healthSlider.maxValue) * 100f;
-        }
-        bool isStar3Achieved = (currentHealthPercent >= minHealthPercent); 
+            finalHealthCached = (healthSlider.value / healthSlider.maxValue) * 100f;
+        s3Cached = (finalHealthCached >= minHealthPercent);
 
-        ShowEndGameSummary(isStar1Achieved, isStar2Achieved, isStar3Achieved, currentHealthPercent);
-    }
-
-    private void ShowEndGameSummary(bool s1, bool s2, bool s3, float finalHealth)
-    {
-        // Ẩn HUD chơi game
         if (txtHUD_Zombies != null) txtHUD_Zombies.gameObject.SetActive(false);
         if (txtHUD_Timer != null) txtHUD_Timer.gameObject.SetActive(false);
         if (txtHUD_Health != null) txtHUD_Health.gameObject.SetActive(false);
         if (txtHUD_Objectives != null) txtHUD_Objectives.gameObject.SetActive(false);
 
-        // Hiện bảng Victory
+        if (onMissionCompleted != null && onMissionCompleted.GetPersistentEventCount() > 0)
+            onMissionCompleted.Invoke(); // LevelController sẽ tự gọi ShowVictoryPanel() sau khi thoại xong
+        else
+            ShowVictoryPanel(); 
+    }
+
+    public void ShowVictoryPanel()
+    {
         if (victoryPanel != null) victoryPanel.SetActive(true);
-        
-        // Hiện chuột để bấm nút chuyển màn
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        float timeSpent = countdownTime - timeRemaining;
-
         if (txtResultStar1 != null)
-            txtResultStar1.text = $"⭐ Càn Quét Zombie: {currentKills}/{targetZombies} -> " + (s1 ? "<color=green>ĐẠT</color>" : "<color=red>THẤT BẠI</color>");
-
+            txtResultStar1.text = (s1Cached ? "<color=green>ĐẠT</color>" : "<color=red>THẤT BẠI</color>");
         if (txtResultStar2 != null)
-            txtResultStar2.text = $"⭐ Tốc Độ Sinh Tồn: Còn {timeRemaining:F1}s dư -> " + (s2 ? "<color=green>ĐẠT</color>" : "<color=red>THẤT BẠI</color>");
-
+            txtResultStar2.text = $"⭐ Tốc Độ: Còn {timeRemaining:F1}s dư -> " + (s2Cached ? "<color=green>ĐẠT</color>" : "<color=red>THẤT BẠI</color>");
         if (txtResultStar3 != null)
-            txtResultStar3.text = $"⭐ Giữ Máu An Toàn: {finalHealth:F0}% / {minHealthPercent}% -> " + (s3 ? "<color=green>ĐẠT</color>" : "<color=red>THẤT BẠI</color>");
+            txtResultStar3.text = $"⭐ Giữ Máu: {finalHealthCached:F0}% / {minHealthPercent}% -> " + (s3Cached ? "<color=green>ĐẠT</color>" : "<color=red>THẤT BẠI</color>");
     }
 
-    public void RestartLevel()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    public void LoadNextLevel()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    }
+    public void RestartLevel() { SceneManager.LoadScene(SceneManager.GetActiveScene().name); }
+    public void LoadNextLevel() { SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); }
 }
