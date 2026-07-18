@@ -1007,9 +1007,7 @@ MonoBehaviour:
   minPlayerSeparation: 2.73
   detectRange: 4.9
   coinPickupPrefab: {fileID: 3084925368698177842, guid: e8b44c807653b8f4a8e4087bff083e00, type: 3}
-  minCoinDrop: 1
-  maxCoinDrop: 3
-  coinDropChance: 1
+  coinDropAmount: 50
   knockbackForce: 15
 --- !u!136 &8448678308981209448
 CapsuleCollider:

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &1425772721643124037
+--- !u!1001 &2864512460289269696
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -14,15 +14,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 885eac34fd0d577439e6670a7ca3777e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.1053898
+      value: 1.8187411
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 885eac34fd0d577439e6670a7ca3777e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.085
+      value: 0.00000036344863
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 885eac34fd0d577439e6670a7ca3777e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.5308104
+      value: 60.139496
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 885eac34fd0d577439e6670a7ca3777e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -178,7 +178,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 885eac34fd0d577439e6670a7ca3777e, type: 3}
       propertyPath: m_Name
-      value: ZombieNormal
+      value: Runner
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 885eac34fd0d577439e6670a7ca3777e, type: 3}
       propertyPath: m_Layer
@@ -322,30 +322,30 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 885eac34fd0d577439e6670a7ca3777e, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5062824718776996870}
+      addedObject: {fileID: 6093212973861772638}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 885eac34fd0d577439e6670a7ca3777e, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6098054445741643410}
+      addedObject: {fileID: 7934239176412941070}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 885eac34fd0d577439e6670a7ca3777e, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5057789880358633418}
+      addedObject: {fileID: -4088517782143008348}
   m_SourcePrefab: {fileID: 100100000, guid: 885eac34fd0d577439e6670a7ca3777e, type: 3}
---- !u!1 &2236095959940974612 stripped
+--- !u!1 &3098937471035368081 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 885eac34fd0d577439e6670a7ca3777e, type: 3}
-  m_PrefabInstance: {fileID: 1425772721643124037}
+  m_PrefabInstance: {fileID: 2864512460289269696}
   m_PrefabAsset: {fileID: 0}
---- !u!195 &5062824718776996870
+--- !u!195 &6093212973861772638
 NavMeshAgent:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2236095959940974612}
+  m_GameObject: {fileID: 3098937471035368081}
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 8
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -357,41 +357,13 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &6098054445741643410
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2236095959940974612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60b5c082d0cfb7047b039c668666766f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemies.NormalZombie
-  maxHealth: 50
-  moveSpeed: 3
-  damage: 12
-  attackRange: 3
-  attackCooldown: 4
-  standoffRatio: 0.3
-  destinationRefreshInterval: 0.2
-  minPlayerSeparation: 0.7
-  detectRange: 50
-  paramIsWalking: isWalking
-  paramAttackTrigger: Attack
-  paramDieTrigger: Die
-  coinPickupPrefab: {fileID: 3084925368698177842, guid: e8b44c807653b8f4a8e4087bff083e00, type: 3}
-  minCoinDrop: 1
-  maxCoinDrop: 3
-  coinDropChance: 1
---- !u!136 &5057789880358633418
+--- !u!136 &7934239176412941070
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2236095959940974612}
+  m_GameObject: {fileID: 3098937471035368081}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -408,3 +380,26 @@ CapsuleCollider:
   m_Height: 4.5
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-4088517782143008348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3098937471035368081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60b5c082d0cfb7047b039c668666766f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Enemies.NormalZombie
+  maxHealth: 100
+  moveSpeed: 8
+  damage: 10
+  attackRange: 2.44
+  attackCooldown: 1.5
+  standoffRatio: 0.85
+  destinationRefreshInterval: 0.43
+  minPlayerSeparation: 1
+  detectRange: 6.37
+  coinPickupPrefab: {fileID: 3084925368698177842, guid: e8b44c807653b8f4a8e4087bff083e00, type: 3}
+  coinDropAmount: 5

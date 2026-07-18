@@ -910,7 +910,7 @@ GameObject:
   - component: {fileID: 1614140100810435796}
   - component: {fileID: 3993958667167487008}
   m_Layer: 6
-  m_Name: Zombiepspitter
+  m_Name: Spitter
   m_TagString: Enemies
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1016,19 +1016,14 @@ MonoBehaviour:
   maxHealth: 100
   moveSpeed: 3.5
   damage: 10
-  attackRange: 5
+  attackRange: 18.14
   attackCooldown: 1.5
   standoffRatio: 0.85
   destinationRefreshInterval: 0.2
   minPlayerSeparation: 1.2
   detectRange: 0
-  paramIsWalking: isWalking
-  paramAttackTrigger: Attack
-  paramDieTrigger: Die
   coinPickupPrefab: {fileID: 3084925368698177842, guid: e8b44c807653b8f4a8e4087bff083e00, type: 3}
-  minCoinDrop: 1
-  maxCoinDrop: 3
-  coinDropChance: 1
+  coinDropAmount: 10
   bulletPrefab: {fileID: 9121675157726882047, guid: b9766e34492a06c49b67deb538194ae5, type: 3}
   firePoint: {fileID: 5742188713305942708}
   projectileSpeed: 12

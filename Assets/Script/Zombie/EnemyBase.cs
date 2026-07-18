@@ -51,12 +51,7 @@ namespace Enemies
         [Header("Rớt Coin khi chết")]
         [Tooltip("Prefab đồng Coin (đang gắn CoinPickup)")]
         public GameObject coinPickupPrefab;
-        [Tooltip("Số coin tối thiểu / tối đa rớt ra mỗi lần")]
-        public int minCoinDrop = 1;
-        public int maxCoinDrop = 3;
-        [Tooltip("Xác suất rớt coin khi chết, 0 = không bao giờ, 1 = luôn luôn")]
-        [Range(0f, 1f)]
-        public float coinDropChance = 1f;
+        public int coinDropAmount;
 
         protected float currentHealth;
         protected Transform player;
@@ -267,18 +262,22 @@ namespace Enemies
             Destroy(gameObject, 2f); // Hủy GameObject sau 2 giây (đủ thời gian chạy xong Anim chết)
         }
 
-        /// <summary>
-        /// Rớt Coin ngẫu nhiên khi zombie chết (thay cho rớt bom/bình hồi máu trực tiếp).
-        /// </summary>
         protected virtual void TryDropCoin()
         {
-            if (coinPickupPrefab == null) return;
-            if (Random.value > coinDropChance) return;
+            if (coinPickupPrefab == null)
+                return;
 
-            GameObject coinObj = Instantiate(coinPickupPrefab, transform.position, Quaternion.identity);
+            GameObject coinObj = Instantiate(
+                coinPickupPrefab,
+                transform.position,
+                Quaternion.identity);
+
             CoinPickup coin = coinObj.GetComponent<CoinPickup>();
+
             if (coin != null)
-                coin.value = Random.Range(minCoinDrop, maxCoinDrop + 1);
+            {
+                coin.value = coinDropAmount;
+            }
         }
 
         protected virtual void OnDrawGizmosSelected()
