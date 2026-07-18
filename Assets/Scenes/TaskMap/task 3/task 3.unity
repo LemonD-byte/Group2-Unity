@@ -4796,7 +4796,7 @@ MonoBehaviour:
       count: 5
     maxZombiesAliveAtOnce: 5
     spawnDelay: 2
-  totalZombiesForThisMap: 30
+  totalZombiesForThisMap: 15
   maxZombiesAliveAtOnce: 6
   spawnDelay: 2
   autoStart: 1
@@ -12481,7 +12481,7 @@ MonoBehaviour:
       count: 5
     maxZombiesAliveAtOnce: 10
     spawnDelay: 2
-  totalZombiesForThisMap: 30
+  totalZombiesForThisMap: 10
   maxZombiesAliveAtOnce: 6
   spawnDelay: 2
   autoStart: 0
@@ -19157,6 +19157,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7256141767752563356, guid: 00eff9c29a753674ca611bc70300a99e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 249839829}
+    - targetCorrespondingSourceObject: {fileID: 8104734964665712608, guid: 00eff9c29a753674ca611bc70300a99e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 00eff9c29a753674ca611bc70300a99e, type: 3}
 --- !u!1 &1429513388 stripped
 GameObject:
@@ -19673,6 +19676,11 @@ MonoBehaviour:
   pausePanel: {fileID: 1701306452}
   inventoryPanel: {fileID: 0}
   deathPanel: {fileID: 1625410951}
+  currentMapIndex: 1
+  selectedMainWeapon: 
+  selectedSecondaryWeapon: pistol_001
+  selectedMeleeWeapon: 
+  damageMultiplier: 1
 --- !u!4 &1485950455
 Transform:
   m_ObjectHideFlags: 0

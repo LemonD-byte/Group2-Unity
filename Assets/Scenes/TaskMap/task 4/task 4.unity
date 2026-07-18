@@ -796,6 +796,11 @@ MonoBehaviour:
   pausePanel: {fileID: 564107366}
   inventoryPanel: {fileID: 0}
   deathPanel: {fileID: 2139708480}
+  currentMapIndex: 1
+  selectedMainWeapon: 
+  selectedSecondaryWeapon: pistol_001
+  selectedMeleeWeapon: 
+  damageMultiplier: 1
 --- !u!4 &155456017
 Transform:
   m_ObjectHideFlags: 0
@@ -3427,7 +3432,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 1
   m_UseReflectionProbes: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -5901,7 +5906,7 @@ MonoBehaviour:
       count: 5
     maxZombiesAliveAtOnce: 5
     spawnDelay: 2
-  totalZombiesForThisMap: 0
+  totalZombiesForThisMap: 20
   maxZombiesAliveAtOnce: 6
   spawnDelay: 2
   autoStart: 0
