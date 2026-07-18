@@ -11,6 +11,12 @@ public class PlayerController : MonoBehaviour
     public float dashTime = 0.2f;
     public float dashCooldown = 0.75f;
 
+    [Header("Weapon Selection")]
+    public GameObject meleeObject;
+    public GameObject pistolObject;
+    public GameObject shotgunObject;
+    public GameObject rifleObject;
+
     private bool canDash = true;
     private bool isDashing = false;
 
@@ -27,6 +33,29 @@ public class PlayerController : MonoBehaviour
         rb.interpolation = RigidbodyInterpolation.Interpolate;
 
         animator = GetComponent<Animator>(); 
+
+        string chosenWeapon = PlayerPrefs.GetString("SelectedWeapon", "Pistol");
+
+        if (meleeObject != null) meleeObject.SetActive(true); 
+        if (pistolObject != null) pistolObject.SetActive(false);
+        if (shotgunObject != null) shotgunObject.SetActive(false);
+        if (rifleObject != null) rifleObject.SetActive(false);
+
+        switch (chosenWeapon)
+        {
+            case "Pistol":
+                if (pistolObject != null) pistolObject.SetActive(true);
+                break;
+            case "Shotgun":
+                if (shotgunObject != null) shotgunObject.SetActive(true);
+                break;
+            case "Rifle":
+                if (rifleObject != null) rifleObject.SetActive(true);
+                break;
+            default:
+                if (pistolObject != null) pistolObject.SetActive(true);
+                break;
+        }
     }
 
     void Update()
@@ -60,7 +89,6 @@ public class PlayerController : MonoBehaviour
     {
         if (animator == null) return;
 
-        // Tính độ lớn di chuyển (0 = đứng yên, 1 = full tốc độ)
         float moveMagnitude = new Vector2(horizontal, vertical).magnitude;
         animator.SetFloat("Speed", moveMagnitude);
     }
