@@ -5913,6 +5913,9 @@ MonoBehaviour:
       count: 10
     maxZombiesAliveAtOnce: 10
     spawnDelay: 2
+  totalZombiesForThisMap: 20
+  maxZombiesAliveAtOnce: 6
+  spawnDelay: 2
   autoStart: 0
   onZombieCountChanged:
     m_PersistentCalls:
