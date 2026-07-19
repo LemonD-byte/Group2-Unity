@@ -55,6 +55,10 @@ namespace Enemies
         public GameObject coinPickupPrefab;
         public int coinDropAmount;
 
+        [Header("Âm thanh")]
+        public AudioClip zombieSound;
+        protected AudioSource audioSource;
+
         protected float currentHealth;
         protected Transform player;
         protected NavMeshAgent agent;
@@ -89,6 +93,11 @@ namespace Enemies
             {
                 gameObject.AddComponent<ZombieHealthBar>();
             }
+
+            audioSource = GetComponent<AudioSource>();
+            if (audioSource == null) audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.playOnAwake = false;
+            audioSource.spatialBlend = 1f;
         }
 
         protected virtual void Start()
@@ -212,6 +221,9 @@ namespace Enemies
 
             lastAttackTime = Time.time;
 
+            if (audioSource != null && zombieSound != null)
+                audioSource.PlayOneShot(zombieSound);
+
             // Kích hoạt Trigger để chạy Animation. Gây sát thương thực tế sẽ do Animation Event đảm nhận.
             if (animator != null && !string.IsNullOrEmpty(paramAttackTrigger))
                 animator.SetTrigger(paramAttackTrigger);
@@ -263,6 +275,9 @@ namespace Enemies
             TryDropCoin();
 
             OnAnyZombieDied?.Invoke(this);
+
+            if (audioSource != null && zombieSound != null)
+                audioSource.PlayOneShot(zombieSound);
 
             Destroy(gameObject, 2f);
         }

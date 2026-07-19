@@ -8,12 +8,12 @@ public class WeaponSelectionManager : MonoBehaviour
     [System.Serializable]
     public class WeaponUIInfo
     {
-        public string weaponName;     
-        public int requiredLevelIndex;  
-        public Button selectionButton;  
+        public string weaponName;
+        public int requiredLevelIndex;
+        public Button selectionButton;
 
         public TextMeshProUGUI txtStats;
-        [TextArea(2, 5)] public string statsText; 
+        [TextArea(2, 5)] public string statsText;
     }
 
     [Header("--- DANH SÁCH VŨ KHÍ ---")]
@@ -21,15 +21,18 @@ public class WeaponSelectionManager : MonoBehaviour
 
     [Header("--- CẤU HÌNH MÀU BLOCK ---")]
     public Color lockedColor = new Color(0.3f, 0.3f, 0.3f, 1f);
-    public Color unlockedColor = Color.white;                  
+    public Color unlockedColor = Color.white;
 
     [Header("--- NÚT BẮT ĐẦU VÀO TRẬN ---")]
     public Button btnStartGame;
-    
-    private string selectedWeaponName = "Pistol"; 
+
+    private string selectedWeaponName = "Pistol";
 
     void Start()
     {
+        // ---- FIX: nhớ lại vũ khí đã chọn lần trước, thay vì luôn mặc định Pistol ----
+        selectedWeaponName = PlayerPrefs.GetString("SelectedWeapon", "Pistol");
+
         RefreshWeaponSelectionUI();
 
         if (btnStartGame != null)
@@ -50,7 +53,7 @@ public class WeaponSelectionManager : MonoBehaviour
 
             if (isUnlocked)
             {
-                w.txtStats.text = w.statsText;      
+                w.txtStats.text = w.statsText;
                 w.selectionButton.interactable = true;
 
                 if (w.selectionButton.image != null)
@@ -64,8 +67,8 @@ public class WeaponSelectionManager : MonoBehaviour
             }
             else
             {
-                w.txtStats.text = "<color=red><size=16>CHƯA MỞ KHÓA KHÓA</color>\n" + w.statsText; 
-                w.selectionButton.interactable = false; 
+                w.txtStats.text = "<color=red><size=16>CHƯA MỞ KHÓA</color>\n" + w.statsText;
+                w.selectionButton.interactable = false;
 
                 if (w.selectionButton.image != null)
                 {
@@ -90,7 +93,19 @@ public class WeaponSelectionManager : MonoBehaviour
     {
         PlayerPrefs.SetString("SelectedWeapon", selectedWeaponName);
         PlayerPrefs.Save();
-        
+
         Debug.Log("Đã lưu vũ khí: " + selectedWeaponName + "! Sẵn sàng chuyển sang MapSelectPanel.");
+    }
+
+    // ---- FIX: hàm còn thiếu, MissionManager sẽ gọi hàm này khi qua màn ----
+    public static void UnlockUpToLevel(int clearedLevelIndex)
+    {
+        int current = PlayerPrefs.GetInt("HighestClearedLevel", 0);
+        if (clearedLevelIndex > current)
+        {
+            PlayerPrefs.SetInt("HighestClearedLevel", clearedLevelIndex);
+            PlayerPrefs.Save();
+            Debug.Log("Đã mở khóa tiến độ vũ khí tới màn: " + clearedLevelIndex);
+        }
     }
 }

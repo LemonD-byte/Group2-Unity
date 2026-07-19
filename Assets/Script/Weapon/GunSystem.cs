@@ -29,11 +29,19 @@ public class GunSystem : MonoBehaviour
     public float bulletVelocity = 60f;   // Tốc độ bay của đạn
     public float bulletLifeTime = 3f;    // Thời gian tự huỷ nếu đạn không trúng gì
 
+    [Header("Âm thanh")]
+    public AudioClip gunshotSound;
+    private AudioSource audioSource;
+
     void Awake()
     {
         // Gán ở Awake (chạy trước OnEnable) để tránh UI hiện sai số 0 chớp nhoáng
         // trong lần đầu tiên object được kích hoạt.
         currentAmmo = magazineSize;
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null) audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false;
     }
 
     void Start()
@@ -74,6 +82,9 @@ public class GunSystem : MonoBehaviour
 
     void Shoot()
     {
+        if (audioSource != null && gunshotSound != null)
+            audioSource.PlayOneShot(gunshotSound);
+
         currentAmmo--; // Bắn 1 viên thì trừ 1 viên
 
         // [VỊ TRÍ 2]: Cập nhật UI ngay sau khi trừ đạn

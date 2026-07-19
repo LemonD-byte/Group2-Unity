@@ -794,7 +794,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8128668236925612103, guid: ba6d20e6dde3f5d488192185d4c52fee, type: 3}
       propertyPath: m_Name
-      value: Zombie Hulk
+      value: Hulk
       objectReference: {fileID: 0}
     - target: {fileID: 8128668236925612103, guid: ba6d20e6dde3f5d488192185d4c52fee, type: 3}
       propertyPath: m_Layer
@@ -890,15 +890,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: ba6d20e6dde3f5d488192185d4c52fee, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.499449
+      value: 484.72842
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: ba6d20e6dde3f5d488192185d4c52fee, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.000010479136
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: ba6d20e6dde3f5d488192185d4c52fee, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 10.44096
+      value: 300.47595
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: ba6d20e6dde3f5d488192185d4c52fee, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1008,6 +1008,7 @@ MonoBehaviour:
   detectRange: 4.9
   coinPickupPrefab: {fileID: 3084925368698177842, guid: e8b44c807653b8f4a8e4087bff083e00, type: 3}
   coinDropAmount: 50
+  zombieSound: {fileID: 8300000, guid: 0639f6f5cba617a4ea07969ce2288532, type: 3}
   knockbackForce: 15
 --- !u!136 &8448678308981209448
 CapsuleCollider:

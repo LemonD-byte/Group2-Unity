@@ -24,8 +24,8 @@ public class GameStateManager : MonoBehaviour
     [Header("Dữ liệu chọn màn & Vũ khí (Mạnh thêm)")]
     public int currentMapIndex = 1; 
     public string selectedMainWeapon = "";
-    public string selectedSecondaryWeapon = "pistol_001"; // Mặc định có pistol
-    public string selectedMeleeWeapon = "";
+    public string selectedSecondaryWeapon = "pistol"; // Mặc định có pistol
+    public string selectedMeleeWeapon = "baseball_bat";
 
     [Header("Shop Upgrades (Mạnh thêm)")]
     public float damageMultiplier = 1f; // Thuốc tăng sát thương từ Shop

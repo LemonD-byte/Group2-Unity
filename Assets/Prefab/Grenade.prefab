@@ -156,11 +156,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Grenade
   fuseTime: 3
-  explosionRadius: 10
+  explosionRadius: 5.76
   explosionDamage: 80
   damageLayer:
     serializedVersion: 2
     m_Bits: 64
   damagePlayer: 1
   explosionEffectPrefab: {fileID: 0}
+  explosionSound: {fileID: 8300000, guid: 79635aaf028710140ae34cdacb060bf4, type: 3}
   explodeOnZombieContact: 1

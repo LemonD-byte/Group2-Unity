@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
@@ -13,12 +15,32 @@ public class WeaponManager : MonoBehaviour
     public bool isMeleeUnlocked = true; // Mới vào game: MỞ GẬY BÓNG CHÀY
 
     private int currentMainIndex = 0;
-    private int activeSlot = 3;        // Mặc định vào game cầm sẵn Pistol (Slot 1)
+    private int activeSlot = 1;        // Mặc định vào game cầm sẵn Pistol (Slot 1)
 
     void Start()
     {
+        SyncWeaponFromSelection();
         SelectWeaponSlot();
         UpdateWeaponIconUI();
+    }
+
+    void SyncWeaponFromSelection()
+    {
+        string selectedMain = PlayerPrefs.GetString("SelectedWeapon", "");
+
+        if (!string.IsNullOrEmpty(selectedMain) && mainWeapons != null)
+        {
+            for (int i = 0; i < mainWeapons.Length; i++)
+            {
+                if (mainWeapons[i] != null &&
+                    string.Equals(mainWeapons[i].name, selectedMain, System.StringComparison.OrdinalIgnoreCase))
+                {
+                    currentMainIndex = i;
+                    isMainUnlocked = true; // Đã chọn được nghĩa là đã mở khóa từ Menu, cho phép dùng luôn
+                    break;
+                }
+            }
+        }
     }
 
     void Update()

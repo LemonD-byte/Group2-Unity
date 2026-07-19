@@ -19,6 +19,9 @@ public class Grenade : MonoBehaviour
     [Header("Hiệu ứng")]
     public GameObject explosionEffectPrefab;
 
+    [Header("Âm thanh")]
+    public AudioClip explosionSound;
+
     [Header("Nổ khi va chạm")]
     public bool explodeOnZombieContact = true;
 
@@ -99,6 +102,10 @@ public class Grenade : MonoBehaviour
         {
             Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
         }
+
+        if (explosionSound != null)
+            AudioSource.PlayClipAtPoint(explosionSound, transform.position);
+
         Destroy(gameObject);
     }
 

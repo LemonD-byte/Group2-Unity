@@ -43,6 +43,9 @@ public class MissionManager : MonoBehaviour
     [Tooltip("Task 3: bắn ra đúng 1 lần khi vừa đủ vật phẩm, để LevelController phát thoại rồi tự bật spawner đợt 2.")]
     public UnityEvent onMaterialsCompleted;
 
+    [Header("--- UNLOCK VŨ KHÍ (bắt buộc phải điền cho từng màn) ---")]
+    public int levelIndex = 1; // Level1 -> 1, Level2 -> 2 ...
+
     private int currentKills = 0;
     private float timeRemaining;
     private bool isLevelEnded = false;
@@ -168,6 +171,11 @@ public class MissionManager : MonoBehaviour
         if (healthSlider != null)
             finalHealthCached = (healthSlider.value / healthSlider.maxValue) * 100f;
         s3Cached = (finalHealthCached >= minHealthPercent);
+
+        if (s1Cached) // chỉ mở khóa khi thật sự đạt mục tiêu, không tính hết giờ/thua
+        {
+            WeaponSelectionManager.UnlockUpToLevel(levelIndex);
+        }
 
         if (txtHUD_Zombies != null) txtHUD_Zombies.gameObject.SetActive(false);
         if (txtHUD_Timer != null) txtHUD_Timer.gameObject.SetActive(false);

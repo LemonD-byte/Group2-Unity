@@ -14,15 +14,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 885eac34fd0d577439e6670a7ca3777e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.1053898
+      value: 490.9109
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 885eac34fd0d577439e6670a7ca3777e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.085
+      value: -0.0000012642025
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 885eac34fd0d577439e6670a7ca3777e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.5308104
+      value: 335.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 885eac34fd0d577439e6670a7ca3777e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -178,7 +178,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 885eac34fd0d577439e6670a7ca3777e, type: 3}
       propertyPath: m_Name
-      value: ZombieNormal
+      value: Normall
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 885eac34fd0d577439e6670a7ca3777e, type: 3}
       propertyPath: m_Layer
@@ -377,9 +377,10 @@ MonoBehaviour:
   standoffRatio: 0.3
   destinationRefreshInterval: 0.2
   minPlayerSeparation: 0.7
-  detectRange: 50
+  detectRange: 39.9
   coinPickupPrefab: {fileID: 3084925368698177842, guid: e8b44c807653b8f4a8e4087bff083e00, type: 3}
   coinDropAmount: 3
+  zombieSound: {fileID: 8300000, guid: 0639f6f5cba617a4ea07969ce2288532, type: 3}
 --- !u!136 &5057789880358633418
 CapsuleCollider:
   m_ObjectHideFlags: 0
