@@ -3400,7 +3400,7 @@ MonoBehaviour:
     statsText: "Damage: 30\n\nFire Rate: 0.1 \n\nMagazine Size:  30 "
   lockedColor: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 0.9}
   unlockedColor: {r: 1, g: 1, b: 1, a: 1}
-  btnStartGame: {fileID: 1243816970}
+  btnStartGame: {fileID: 0}
 --- !u!114 &202421102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10888,6 +10888,7 @@ RectTransform:
   - {fileID: 783253826}
   - {fileID: 202421100}
   - {fileID: 1068856261}
+  - {fileID: 1420626631}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -12015,7 +12016,6 @@ RectTransform:
   - {fileID: 1077185309}
   - {fileID: 137398816}
   - {fileID: 1243816969}
-  - {fileID: 1420626631}
   m_Father: {fileID: 746247592}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -14273,12 +14273,12 @@ MonoBehaviour:
   - waveName: 1
     spawnEntries:
     - zombiePrefab: {fileID: 2236095959940974612, guid: 726113ffb74045a48b2067face580cb3, type: 3}
-      count: 5
+      count: 20
     - zombiePrefab: {fileID: 3357297224374994323, guid: 3bf58590f9694434d9c1f85dd268095d, type: 3}
-      count: 5
-    maxZombiesAliveAtOnce: 10
+      count: 6
+    maxZombiesAliveAtOnce: 6
     spawnDelay: 2
-  totalZombiesForThisMap: 10
+  totalZombiesForThisMap: 26
   maxZombiesAliveAtOnce: 6
   spawnDelay: 2
   autoStart: 0
@@ -21206,12 +21206,12 @@ RectTransform:
   - {fileID: 1708377245}
   - {fileID: 1490577846}
   - {fileID: 292555760}
-  m_Father: {fileID: 837220506}
+  m_Father: {fileID: 746247592}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 4.6000366, y: -14.300018}
-  m_SizeDelta: {x: 109.20001, y: -28.600006}
+  m_SizeDelta: {x: -190.79999, y: -228.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1424278109 stripped
 GameObject:
@@ -28624,6 +28624,18 @@ MonoBehaviour:
       - m_Target: {fileID: 202421101}
         m_TargetAssemblyTypeName: WeaponSelectionManager, Assembly-CSharp
         m_MethodName: SaveWeaponSelection
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 185586662}
+        m_TargetAssemblyTypeName: MissionManager, Assembly-CSharp
+        m_MethodName: LoadNextLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

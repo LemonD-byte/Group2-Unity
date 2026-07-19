@@ -21,6 +21,18 @@ public class WeaponSelectionPanel : MonoBehaviour
     {
         // Mỗi lần Panel này được BẬT lên, tự động quét để làm mờ súng theo Map đã chọn
         CheckWeaponAvailability();
+
+        // FIX: báo cho GameStateManager biết panel này đang mở, để phím ESC không mở
+        // Pause đè lên panel Chọn Vũ Khí/Màn nữa (bug "ấn pause hiện bảng pause chèn vào").
+        if (GameStateManager.Instance != null)
+            GameStateManager.Instance.SetLocked(true);
+    }
+
+    void OnDisable()
+    {
+        // FIX: mở khoá lại khi panel này bị tắt đi (ví dụ người chơi bấm Xác Nhận để vào màn)
+        if (GameStateManager.Instance != null)
+            GameStateManager.Instance.SetLocked(false);
     }
 
     void CheckWeaponAvailability()

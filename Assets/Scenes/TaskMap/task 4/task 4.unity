@@ -6596,7 +6596,11 @@ MonoBehaviour:
   - waveName: 1
     spawnEntries:
     - zombiePrefab: {fileID: 2236095959940974612, guid: 726113ffb74045a48b2067face580cb3, type: 3}
-      count: 5
+      count: 6
+    - zombiePrefab: {fileID: 3098937471035368081, guid: 6370706075f307847bd41c9528f61705, type: 3}
+      count: 14
+    - zombiePrefab: {fileID: 3357297224374994323, guid: 3bf58590f9694434d9c1f85dd268095d, type: 3}
+      count: 10
     maxZombiesAliveAtOnce: 5
     spawnDelay: 2
   totalZombiesForThisMap: 20
@@ -6999,7 +7003,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &957132178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15323,6 +15327,18 @@ MonoBehaviour:
       - m_Target: {fileID: 570142866}
         m_TargetAssemblyTypeName: WeaponSelectionManager, Assembly-CSharp
         m_MethodName: SaveWeaponSelection
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 59933080}
+        m_TargetAssemblyTypeName: MissionManager, Assembly-CSharp
+        m_MethodName: LoadNextLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

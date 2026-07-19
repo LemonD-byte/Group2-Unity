@@ -175,6 +175,16 @@ public class MissionManager : MonoBehaviour
         if (s1Cached) // chỉ mở khóa khi thật sự đạt mục tiêu, không tính hết giờ/thua
         {
             WeaponSelectionManager.UnlockUpToLevel(levelIndex);
+
+            // FIX BUG PHỤ: GameStateManager.currentMapIndex được khai báo mặc định = 1
+            // nhưng KHÔNG hề có chỗ nào trong project cập nhật nó khi qua màn.
+            // Hậu quả: WeaponSelectionPanel.CheckWeaponAvailability() luôn coi currentMap = 1
+            // mãi mãi -> vũ khí yêu cầu requiredMap > 1 sẽ không bao giờ mở khóa được
+            // dù người chơi đã qua các màn sau. Cập nhật nó ở đây để đồng bộ.
+            if (GameStateManager.Instance != null && levelIndex + 1 > GameStateManager.Instance.currentMapIndex)
+            {
+                GameStateManager.Instance.currentMapIndex = levelIndex + 1;
+            }
         }
 
         if (txtHUD_Zombies != null) txtHUD_Zombies.gameObject.SetActive(false);
@@ -191,8 +201,17 @@ public class MissionManager : MonoBehaviour
     public void ShowVictoryPanel()
     {
         if (victoryPanel != null) victoryPanel.SetActive(true);
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+
+        // FIX: báo cho GameStateManager biết đang hiện bảng Thắng, để phím ESC
+        // không mở Pause đè lên bảng này nữa (bug "ấn pause hiện bảng pause chèn vào").
+        if (GameStateManager.Instance != null)
+            GameStateManager.Instance.SetLocked(true);
+        else
+        {
+            // Phòng trường hợp GameStateManager chưa có trong scene (fallback như code cũ)
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
 
         if (txtResultStar1 != null)
             txtResultStar1.text = (s1Cached ? "<color=green>ĐẠT</color>" : "<color=red>THẤT BẠI</color>");
@@ -202,6 +221,49 @@ public class MissionManager : MonoBehaviour
             txtResultStar3.text = $"⭐ Giữ Máu: {finalHealthCached:F0}% / {minHealthPercent}% -> " + (s3Cached ? "<color=green>ĐẠT</color>" : "<color=red>THẤT BẠI</color>");
     }
 
-    public void RestartLevel() { SceneManager.LoadScene(SceneManager.GetActiveScene().name); }
-    public void LoadNextLevel() { SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); }
+    public void RestartLevel()
+    {
+        Time.timeScale = 1f;                                              // ← THÊM
+        if (GameStateManager.Instance != null)                            // ← THÊM
+            GameStateManager.Instance.SetLocked(false);                   // ← THÊM
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    // FIX: trước đây dùng buildIndex + 1, phụ thuộc HOÀN TOÀN vào thứ tự scene trong
+    // File > Build Settings. Nếu Build Settings bị thiếu/sai thứ tự (ví dụ có scene thừa
+    // như "task 6" chen giữa), buildIndex + 1 sẽ nhảy NHẦM scene hoặc báo lỗi ngoài phạm vi
+    // -> đây chính là lý do "qua màn 2 không sang được màn 3".
+    // Bây giờ đổi sang load THEO TÊN, tự suy ra tên màn kế tiếp từ tên scene hiện tại
+    // (vd: "task 2" -> "task 3"), không còn phụ thuộc vị trí trong Build Settings nữa.
+    public void LoadNextLevel()
+    {
+        Time.timeScale = 1f;                                              // ← THÊM
+        if (GameStateManager.Instance != null)                            // ← THÊM
+            GameStateManager.Instance.SetLocked(false);                   // ← THÊM
+
+        string currentScene = SceneManager.GetActiveScene().name;
+        string nextScene = GetNextTaskSceneName(currentScene);
+
+        if (!string.IsNullOrEmpty(nextScene) && Application.CanStreamedLevelBeLoaded(nextScene))
+        {
+            SceneManager.LoadScene(nextScene);
+        }
+        else
+        {
+            Debug.LogWarning($"[MissionManager] Không tìm thấy scene '{nextScene}' trong Build Settings (kiểm tra lại File > Build Settings). Dùng buildIndex làm phương án dự phòng.");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+    }
+
+    // Tách số cuối tên scene hiện tại và +1, ví dụ "task 2" -> "task 3"
+    private string GetNextTaskSceneName(string currentSceneName)
+    {
+        var match = System.Text.RegularExpressions.Regex.Match(currentSceneName, @"(\d+)\s*$");
+        if (!match.Success) return null;
+
+        int currentNumber = int.Parse(match.Value);
+        string prefix = currentSceneName.Substring(0, currentSceneName.Length - match.Value.Length);
+        return prefix + (currentNumber + 1);
+    }
 }

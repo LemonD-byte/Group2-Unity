@@ -8,7 +8,9 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class GameStateManager : MonoBehaviour
 {
-    public enum UIState { Playing, Paused, Inventory, Dead }
+    // FIX: thêm "Locked" - dùng khi đang hiện Bảng Thắng (Victory) hoặc Panel Chọn Vũ Khí/Màn.
+    // Ở trạng thái này, phím ESC sẽ KHÔNG mở Pause đè lên nữa.
+    public enum UIState { Playing, Paused, Inventory, Dead, Locked }
 
     // Đổi sang kiểu public static chuẩn để gọi GameManager.Instance từ mọi nơi
     public static GameStateManager Instance { get; private set; }
@@ -22,7 +24,7 @@ public class GameStateManager : MonoBehaviour
     // KHU VỰC MẠNH THÊM VÀO: LƯU TRỮ DỮ LIỆU CHỌN VŨ KHÍ
     // ==========================================
     [Header("Dữ liệu chọn màn & Vũ khí (Mạnh thêm)")]
-    public int currentMapIndex = 1; 
+    public int currentMapIndex = 1;
     public string selectedMainWeapon = "";
     public string selectedSecondaryWeapon = "pistol"; // Mặc định có pistol
     public string selectedMeleeWeapon = "baseball_bat";
@@ -50,7 +52,7 @@ public class GameStateManager : MonoBehaviour
     void Update()
     {
         // Chỉ chạy các phím tắt UI nếu đang ở trong màn chơi chính (Tránh bấm nhầm ngoài Main Menu)
-        if (SceneManager.GetActiveScene().name != "MainMenu") 
+        if (SceneManager.GetActiveScene().name != "MainMenu")
         {
             if (Input.GetKeyDown(KeyCode.Escape))
                 OnEscapePressed();
@@ -76,6 +78,10 @@ public class GameStateManager : MonoBehaviour
                 break;
             case UIState.Dead:
                 break;
+            // FIX: đang ở màn hình Thắng (Victory) hoặc Panel Chọn Vũ Khí/Màn -> ESC không làm gì cả,
+            // tránh việc bảng Pause bị mở chèn lên trên các bảng này.
+            case UIState.Locked:
+                break;
         }
     }
 
@@ -91,7 +97,7 @@ public class GameStateManager : MonoBehaviour
     // ---------- Pause ----------
     public void OpenPause()
     {
-        if (CurrentState != UIState.Playing) return; 
+        if (CurrentState != UIState.Playing) return;
         CurrentState = UIState.Paused;
         SetPaused(true);
         if (pausePanel != null) pausePanel.SetActive(true);
@@ -132,6 +138,27 @@ public class GameStateManager : MonoBehaviour
 
         SetPaused(true);
         if (deathPanel != null) deathPanel.SetActive(true);
+    }
+
+    // ---------- FIX MỚI: Khoá/Mở UI khi hiện Victory Panel hoặc Weapon/Map Selection Panel ----------
+    // Gọi SetLocked(true) NGAY TRƯỚC khi bật panel Victory hoặc panel Chọn vũ khí/màn lên.
+    // Gọi SetLocked(false) khi tắt panel đó đi (nếu panel có thể đóng lại được).
+    public void SetLocked(bool locked)
+    {
+        if (locked)
+        {
+            // Không cho khoá đè lên trạng thái Dead
+            if (CurrentState == UIState.Dead) return;
+
+            CurrentState = UIState.Locked;
+            SetPaused(true); // vẫn dừng game + hiện chuột như Pause, nhưng ESC bị vô hiệu hoá
+        }
+        else
+        {
+            if (CurrentState != UIState.Locked) return;
+            CurrentState = UIState.Playing;
+            SetPaused(false);
+        }
     }
 
     // ---------- Nơi DUY NHẤT khoá/mở Cursor + timeScale trong toàn bộ scene ----------
