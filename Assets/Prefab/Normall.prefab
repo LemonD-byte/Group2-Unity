@@ -370,14 +370,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemies.NormalZombie
   maxHealth: 50
-  moveSpeed: 3
+  moveSpeed: 5
   damage: 12
-  attackRange: 3
+  attackRange: 4.04
   attackCooldown: 4
   standoffRatio: 0.3
   destinationRefreshInterval: 0.2
   minPlayerSeparation: 0.7
-  detectRange: 39.9
   coinPickupPrefab: {fileID: 3084925368698177842, guid: e8b44c807653b8f4a8e4087bff083e00, type: 3}
   coinDropAmount: 3
   zombieSound: {fileID: 8300000, guid: 0639f6f5cba617a4ea07969ce2288532, type: 3}
@@ -400,7 +399,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4
-  m_Height: 4.5
+  m_Radius: 0.5080963
+  m_Height: 2.44112
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: -0.02733463, y: 1.02944, z: -0.08076173}

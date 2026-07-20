@@ -45,7 +45,12 @@ public class GameStateManager : MonoBehaviour
         }
         else
         {
+            Instance.pausePanel = pausePanel;
+            Instance.inventoryPanel = inventoryPanel;
+            Instance.deathPanel = deathPanel;
+
             Destroy(gameObject);
+            return;
         }
     }
 
@@ -159,6 +164,14 @@ public class GameStateManager : MonoBehaviour
             CurrentState = UIState.Playing;
             SetPaused(false);
         }
+    }
+
+    // ---------- FIX: reset trạng thái sau khi chết, gọi từ nút "Chơi lại" / "Về Main Menu" ----------
+    // Nếu không gọi hàm này, CurrentState sẽ kẹt vĩnh viễn ở Dead (vì Singleton sống xuyên
+    // scene), khiến ESC/E bị vô hiệu hoá cho cả các lượt chơi/scene sau đó.
+    public void ResetStateAfterDeath()
+    {
+        CurrentState = UIState.Playing;
     }
 
     // ---------- Nơi DUY NHẤT khoá/mở Cursor + timeScale trong toàn bộ scene ----------

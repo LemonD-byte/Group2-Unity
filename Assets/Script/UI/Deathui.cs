@@ -12,6 +12,8 @@ public class DeathUI : MonoBehaviour
     public void Restart()
     {
         Time.timeScale = 1f;
+        if (GameStateManager.Instance != null)
+            GameStateManager.Instance.ResetStateAfterDeath();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -19,6 +21,8 @@ public class DeathUI : MonoBehaviour
     public void BackToMainMenu()
     {
         Time.timeScale = 1f;
+        if (GameStateManager.Instance != null)
+            GameStateManager.Instance.ResetStateAfterDeath();
         SceneManager.LoadScene("MainMenu");
     }
 }
