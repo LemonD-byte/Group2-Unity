@@ -1133,19 +1133,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 220854161}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 843774705}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: LoadMap
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: task 5
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &220854161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1352,19 +1340,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 294509373}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 843774705}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: LoadMap
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: task 1
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &303197378
 GameObject:
   m_ObjectHideFlags: 0
@@ -2345,19 +2321,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 395676169}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 843774705}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: LoadMap
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: task 2
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &395676169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2639,19 +2603,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 532494772}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 843774705}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: LoadMap
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: task 4
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &532494772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3824,6 +3776,25 @@ MonoBehaviour:
   mainPanel: {fileID: 2045530142}
   mapSelectPanel: {fileID: 354411087}
   shopPanel: {fileID: 1988356890}
+  mapButtons:
+  - sceneName: task 1
+    requiredClearedLevel: 0
+    button: {fileID: 294509375}
+    lockIcon: {fileID: 0}
+  - sceneName: task 2
+    requiredClearedLevel: 1
+    button: {fileID: 395676168}
+    lockIcon: {fileID: 0}
+  - sceneName: task 3
+    requiredClearedLevel: 2
+    button: {fileID: 532494771}
+    lockIcon: {fileID: 0}
+  - sceneName: task 4
+    requiredClearedLevel: 3
+    button: {fileID: 220854160}
+    lockIcon: {fileID: 0}
+  lockedColor: {r: 0, g: 0, b: 0, a: 1}
+  unlockedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &909998531
 GameObject:
   m_ObjectHideFlags: 0

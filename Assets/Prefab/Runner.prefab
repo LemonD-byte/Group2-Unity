@@ -393,7 +393,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemies.NormalZombie
   maxHealth: 100
-  moveSpeed: 10
+  moveSpeed: 13
   damage: 15
   attackRange: 4
   attackCooldown: 1.5

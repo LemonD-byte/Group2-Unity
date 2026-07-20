@@ -1014,7 +1014,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemies.SpitterZombie
   maxHealth: 100
-  moveSpeed: 5
+  moveSpeed: 7
   damage: 10
   attackRange: 8
   attackCooldown: 1.5
